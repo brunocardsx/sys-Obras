@@ -1,5 +1,20 @@
 {
+  "name": "sistest",
+  "version": "1.0.0",
+  "description": "Sistema de Gestão Refatorado",
+  "main": "index.js",
+  "scripts": {
+    "backend:dev": "cd backend && npm run dev",
+    "frontend:dev": "cd frontend && npm start",
+    "backend:start": "cd backend && npm start",
+    "frontend:start": "cd frontend && npm start",
+    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "start": "concurrently \"npm run backend:start\" \"npm run frontend:start\""
+  },
+  "keywords": [],
+  "author": "Bruno Cardoso",
+  "license": "MIT",
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "concurrently": "^8.2.2"
   }
 }
