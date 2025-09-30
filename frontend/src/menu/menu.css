@@ -1,0 +1,130 @@
+/* src/components/menu.css */
+:root {
+  --menu-bg: #1F2D2D;
+  --menu-text: #A9B1C2;
+  --menu-text-active: #FFFFFF;
+  --menu-icon: #8A91A0;
+  --menu-icon-active: #2DD4BF;
+  --menu-hover-bg: #2A3B3B;
+  --menu-active-bg: #2D4343;
+}
+
+.menu-container {
+  grid-column: 1 / 2;
+  width: 260px;
+  background-color: var(--menu-bg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease-in-out;
+  box-sizing: border-box;
+  z-index: 999;
+
+  /* ========================================================== */
+  /* CORREÇÃO 1: Adiciona scroll ao menu se ele for muito alto  */
+  /* ========================================================== */
+  overflow-y: auto;
+}
+
+/* --- Overlay para fechar menu no mobile --- */
+.menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+.menu-overlay.show {
+  display: block;
+}
+
+/* ========================================================== */
+/* CORREÇÃO 2: Garante que a logo fique maior e centralizada  */
+/* ========================================================== */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  margin-bottom: 30px;
+  /* Garante que o container da logo não encolha */
+  flex-shrink: 0;
+}
+
+.logo-container img {
+  width: 250px; /* <<-- Ajuste este valor se quiser maior ou menor */
+  height: auto;
+}
+
+/* --- Estrutura da Navegação --- */
+.menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-item-link {
+  text-decoration: none;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: var(--menu-text);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.menu-item:hover {
+  background-color: var(--menu-hover-bg);
+  color: var(--menu-text-active);
+}
+.menu-item.active {
+  background-color: var(--menu-active-bg);
+  color: var(--menu-text-active);
+  font-weight: 600;
+}
+
+.menu-item i {
+  font-size: 1.1rem;
+  width: 24px;
+  margin-right: 16px;
+  color: var(--menu-icon);
+  transition: color 0.2s ease;
+}
+.menu-item:hover i, .menu-item.active i {
+  color: var(--menu-icon-active);
+}
+
+.menu-item-text {
+  transition: opacity 0.2s ease;
+}
+
+/* --- Separador e Seção Inferior --- */
+.menu-spacer {
+  flex-grow: 1;
+}
+
+/* --- RESPONSIVIDADE PARA O MENU HAMBURGER --- */
+@media (max-width: 768px) {
+  .menu-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+  }
+
+  .menu-container.open {
+    transform: translateX(0);
+  }
+
+  .menu-overlay.show {
+    display: block;
+  }
+}

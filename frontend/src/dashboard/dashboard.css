@@ -1,0 +1,283 @@
+:root {
+  --db-bg-main: #1C1D21;
+  --db-bg-card: #2A2D35;
+  --db-bg-card-hover: #353842;
+  --db-text-primary: #F0F2F5;
+  --db-text-secondary: #A9B1C2;
+  --db-text-label: #8A91A0;
+  --db-text-highlight: #D1D9E6;
+  --db-accent-primary: #2DD4BF;
+  --db-accent-primary-hover: #26bba7;
+  --db-border-color: #3B3E47;
+  --db-red-error: #F47174;
+  --db-red-error-bg: rgba(244, 113, 116, 0.1);
+  --db-border-radius: 16px;
+  --db-font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.dashboard-content-wrapper {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "header header"
+    "main sidebar";
+  gap: 24px;
+  padding: 24px;
+  font-family: var(--db-font-main);
+  background-color: var(--db-bg-main);
+}
+
+.dashboard-header {
+  grid-area: header;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--db-border-color);
+}
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--db-text-primary);
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.dashboard-main-column {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dashboard-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+}
+.dashboard-nav-card-link {
+  text-decoration: none;
+}
+.dashboard-nav-card {
+  background-color: var(--db-bg-card);
+  border-radius: var(--db-border-radius);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 140px;
+  transition: background-color 0.2s ease-out, transform 0.2s ease-out;
+}
+.dashboard-nav-card:hover {
+  background-color: var(--db-bg-card-hover);
+  transform: translateY(-4px);
+}
+.icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(45, 212, 191, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  transition: background-color 0.2s;
+}
+.dashboard-nav-card:hover .icon-wrapper {
+  background-color: rgba(45, 212, 191, 0.2);
+}
+.dashboard-nav-card i {
+  font-size: 1.8rem;
+  color: var(--db-accent-primary);
+}
+.dashboard-nav-card span {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--db-text-secondary);
+}
+
+.dashboard-chart-section {
+  background-color: var(--db-bg-card);
+  padding: 24px;
+  border-radius: var(--db-border-radius);
+}
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--db-text-primary);
+  margin: 0 0 24px 0;
+}
+.filters-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+.filter-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--db-text-label);
+}
+.dashboard-select {
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  color: var(--db-text-primary);
+  background-color: var(--db-bg-main);
+  border: 1px solid var(--db-border-color);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%232DD4BF'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.25em;
+  padding-right: 2.5rem;
+}
+.dashboard-select:focus {
+  border-color: var(--db-accent-primary);
+  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.2);
+}
+.chart-wrapper-dashboard {
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-right-sidebar {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.widget-card {
+  background-color: var(--db-bg-card);
+  padding: 24px;
+  border-radius: var(--db-border-radius);
+}
+.widget-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--db-text-primary);
+  margin: 0 0 16px 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--db-border-color);
+}
+.total-gastos-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--db-accent-primary);
+  margin: 0;
+  text-align: center;
+}
+
+.quick-reports-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.quick-reports-list li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--db-text-highlight);
+  font-weight: 500;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s, color 0.2s;
+}
+.quick-reports-list li a:hover {
+  background-color: var(--db-bg-card-hover);
+  color: var(--db-accent-primary);
+}
+.quick-reports-list li a i {
+  font-size: 0.9rem;
+}
+
+.dashboard-error-message {
+  color: var(--db-red-error);
+  background-color: var(--db-red-error-bg);
+  border: 1px solid var(--db-red-error);
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.loading-text, .no-data-text {
+  font-size: 1rem;
+  color: var(--db-text-secondary);
+  text-align: center;
+  padding: 40px 20px;
+  width: 100%;
+}
+
+/* ========================================================== */
+/*           REGRAS DE RESPONSIVIDADE (MOBILE & TABLET)       */
+/* ========================================================== */
+@media (max-width: 1024px) {
+  /* Altera o layout principal para uma única coluna */
+  .dashboard-content-wrapper {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "main"
+      "sidebar";
+    padding: 16px;
+    gap: 16px;
+  }
+
+  /* Reduz o tamanho da fonte dos títulos para caber melhor */
+  .dashboard-title {
+    font-size: 1.6rem;
+  }
+  .section-title {
+    font-size: 1.3rem;
+  }
+  .widget-card h3 {
+    font-size: 1rem;
+  }
+  .total-gastos-value {
+    font-size: 2rem;
+  }
+
+  /* Ajusta o grid de cards de navegação para mobile */
+  .dashboard-cards-grid {
+    /* Força duas colunas em telas menores para melhor aproveitamento de espaço */
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .dashboard-nav-card {
+    padding: 16px;
+    min-height: 120px;
+  }
+  .icon-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+  .dashboard-nav-card i {
+    font-size: 1.5rem;
+  }
+
+  /* Garante que os filtros fiquem um embaixo do outro */
+  .filters-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Reduz a altura do gráfico para não ocupar a tela toda */
+  .chart-wrapper-dashboard {
+    height: 300px;
+  }
+}
