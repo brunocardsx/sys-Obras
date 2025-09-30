@@ -22,4 +22,4 @@ const Header: React.FC<HeaderProps> = ({ toggleMenu }) => {
   );
 };
 
-export default Header;
+export { Header };

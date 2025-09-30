@@ -1,7 +1,7 @@
 // src/services/PrivateRoutes.tsx
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { STORAGE_KEYS } from '@/types/constants';
+import { STORAGE_KEYS } from '../types/constants';
 
 interface RequireAuthProps {
   readonly children: React.ReactNode;
@@ -22,4 +22,4 @@ const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
   return <>{children}</>;
 };
 
-export default RequireAuth;
+export { RequireAuth };

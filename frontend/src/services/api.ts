@@ -1,6 +1,6 @@
 // src/services/api.ts
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
-import { STORAGE_KEYS } from '@/types/constants';
+import { STORAGE_KEYS } from '../types/constants';
 
 // Create Axios instance with base URL
 const api: AxiosInstance = axios.create({
@@ -36,4 +36,4 @@ api.interceptors.response.use(
   }
 );
 
-export default api;
+export { api };
