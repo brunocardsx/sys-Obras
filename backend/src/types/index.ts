@@ -1,6 +1,6 @@
 // Core domain types
 export interface User {
-  readonly id: number;
+  readonly id: string;
   readonly username: string;
   readonly role: UserRole;
 }
@@ -8,41 +8,57 @@ export interface User {
 export type UserRole = 'admin' | 'user';
 
 export interface Product {
-  readonly id: number;
+  readonly id: string;
+  readonly code: string;
   readonly name: string;
-  readonly brand?: string;
-  readonly cost: number;
-  readonly resalePrice: number;
+  readonly description?: string;
+  readonly categoryId?: string;
+  readonly unit?: string;
+  readonly costPrice: number;
+  readonly sellingPrice: number;
+  readonly stockQuantity?: number;
+  readonly minStock?: number;
+  readonly maxStock?: number;
+  readonly isActive?: boolean;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
 
-export interface Obra {
-  readonly id: number;
+export interface Project {
+  readonly id: string;
   readonly name: string;
   readonly address?: string;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
 
-export interface NotaFiscal {
-  readonly id: number;
-  readonly numero: string;
-  readonly dataEmissao: Date;
-  readonly obraId: number;
-  readonly obra?: Obra | undefined;
-  readonly itens: ItemNotaFiscal[];
+export interface Invoice {
+  readonly id: string;
+  readonly number: string;
+  readonly series?: string;
+  readonly supplierId?: string;
+  readonly projectId: string;
+  readonly issueDate: Date;
+  readonly dueDate?: Date;
+  readonly subtotal?: number;
+  readonly taxAmount?: number;
+  readonly totalAmount: number;
+  readonly status?: string;
+  readonly paymentDate?: Date;
+  readonly notes?: string;
+  readonly project?: Project | undefined;
+  readonly items: InvoiceItem[];
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
 
-export interface ItemNotaFiscal {
-  readonly id: number;
-  readonly notaFiscalId: number;
-  readonly produtoId: number;
-  readonly quantidade: number;
-  readonly valorUnitario: number;
-  readonly produto?: Product | undefined;
+export interface InvoiceItem {
+  readonly id: string;
+  readonly invoiceId: string;
+  readonly productId: string;
+  readonly quantity: number;
+  readonly unitPrice: number;
+  readonly product?: Product | undefined;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
@@ -66,28 +82,44 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
 
 // Request types
 export interface CreateProductRequest {
+  readonly code: string;
   readonly name: string;
-  readonly brand?: string | undefined;
-  readonly cost: number;
-  readonly resalePrice: number;
+  readonly description?: string | undefined;
+  readonly categoryId?: string | undefined;
+  readonly unit?: string | undefined;
+  readonly costPrice: number;
+  readonly sellingPrice: number;
+  readonly stockQuantity?: number | undefined;
+  readonly minStock?: number | undefined;
+  readonly maxStock?: number | undefined;
+  readonly isActive?: boolean | undefined;
 }
 
-export interface CreateObraRequest {
+export interface CreateProjectRequest {
   readonly name: string;
   readonly address?: string | undefined;
 }
 
-export interface CreateNotaFiscalRequest {
-  readonly numero: string;
-  readonly dataEmissao: string;
-  readonly obraId: number;
-  readonly itens: CreateItemNotaFiscalRequest[];
+export interface CreateInvoiceRequest {
+  readonly number: string;
+  readonly series?: string | undefined;
+  readonly supplierId?: string | undefined;
+  readonly projectId: string;
+  readonly issueDate: string;
+  readonly dueDate?: string | undefined;
+  readonly subtotal?: number | undefined;
+  readonly taxAmount?: number | undefined;
+  readonly totalAmount: number;
+  readonly status?: string | undefined;
+  readonly paymentDate?: string | undefined;
+  readonly notes?: string | undefined;
+  readonly items: CreateInvoiceItemRequest[];
 }
 
-export interface CreateItemNotaFiscalRequest {
-  readonly produtoId: number;
-  readonly quantidade: number;
-  readonly valorUnitario: number;
+export interface CreateInvoiceItemRequest {
+  readonly productId: string;
+  readonly quantity: number;
+  readonly unitPrice: number;
 }
 
 // Auth types

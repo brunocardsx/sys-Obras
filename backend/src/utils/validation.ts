@@ -1,42 +1,65 @@
 import Joi from 'joi';
-import { CreateProductRequest, CreateObraRequest, CreateNotaFiscalRequest, LoginRequest } from '../types';
+import { CreateProductRequest, CreateProjectRequest, CreateInvoiceRequest, LoginRequest } from '../types';
 
 // Product validation schemas
 export const createProductSchema = Joi.object<CreateProductRequest>({
+  code: Joi.string().trim().min(1).max(100).required(),
   name: Joi.string().trim().min(1).max(255).required(),
-  brand: Joi.string().trim().max(255).optional(),
-  cost: Joi.number().min(0).precision(2).optional(),
-  resalePrice: Joi.number().min(0).precision(2).optional(),
+  description: Joi.string().trim().optional(),
+  categoryId: Joi.string().uuid().optional(),
+  unit: Joi.string().trim().max(20).optional(),
+  costPrice: Joi.number().min(0).precision(2).optional(),
+  sellingPrice: Joi.number().min(0).precision(2).optional(),
+  stockQuantity: Joi.number().min(0).precision(3).optional(),
+  minStock: Joi.number().min(0).precision(3).optional(),
+  maxStock: Joi.number().min(0).precision(3).optional(),
+  isActive: Joi.boolean().optional(),
 });
 
 export const updateProductSchema = Joi.object<Partial<CreateProductRequest>>({
+  code: Joi.string().trim().min(1).max(100).optional(),
   name: Joi.string().trim().min(1).max(255).optional(),
-  brand: Joi.string().trim().max(255).optional(),
-  cost: Joi.number().min(0).precision(2).optional(),
-  resalePrice: Joi.number().min(0).precision(2).optional(),
+  description: Joi.string().trim().optional(),
+  categoryId: Joi.string().uuid().optional(),
+  unit: Joi.string().trim().max(20).optional(),
+  costPrice: Joi.number().min(0).precision(2).optional(),
+  sellingPrice: Joi.number().min(0).precision(2).optional(),
+  stockQuantity: Joi.number().min(0).precision(3).optional(),
+  minStock: Joi.number().min(0).precision(3).optional(),
+  maxStock: Joi.number().min(0).precision(3).optional(),
+  isActive: Joi.boolean().optional(),
 });
 
-// Obra validation schemas
-export const createObraSchema = Joi.object<CreateObraRequest>({
+// Project validation schemas
+export const createProjectSchema = Joi.object<CreateProjectRequest>({
   name: Joi.string().trim().min(1).max(255).required(),
   address: Joi.string().trim().max(500).optional(),
 });
 
-export const updateObraSchema = Joi.object<Partial<CreateObraRequest>>({
+export const updateProjectSchema = Joi.object<Partial<CreateProjectRequest>>({
   name: Joi.string().trim().min(1).max(255).optional(),
   address: Joi.string().trim().max(500).optional(),
 });
 
-// Nota Fiscal validation schemas
-export const createNotaFiscalSchema = Joi.object<CreateNotaFiscalRequest>({
-  numero: Joi.string().trim().min(1).max(100).required(),
-  dataEmissao: Joi.date().iso().required(),
-  obraId: Joi.number().integer().positive().required(),
-  itens: Joi.array().items(
+// Invoice validation schemas
+export const createInvoiceSchema = Joi.object<CreateInvoiceRequest>({
+  number: Joi.string().trim().min(1).max(100).required(),
+  series: Joi.string().trim().max(20).optional(),
+  supplierId: Joi.string().uuid().optional(),
+  projectId: Joi.string().uuid().required(),
+  issueDate: Joi.date().iso().required(),
+  dueDate: Joi.date().iso().optional(),
+  subtotal: Joi.number().min(0).precision(2).optional(),
+  taxAmount: Joi.number().min(0).precision(2).optional(),
+  totalAmount: Joi.number().min(0).precision(2).required(),
+  status: Joi.string().trim().max(50).optional(),
+  paymentDate: Joi.date().iso().optional(),
+  notes: Joi.string().trim().optional(),
+  items: Joi.array().items(
     Joi.object({
-      produtoId: Joi.number().integer().positive().required(),
-      quantidade: Joi.number().positive().required(),
-      valorUnitario: Joi.number().positive().precision(2).required(),
+      productId: Joi.string().uuid().required(),
+      quantity: Joi.number().positive().required(),
+      unitPrice: Joi.number().positive().precision(2).required(),
     })
   ).min(1).required(),
 });

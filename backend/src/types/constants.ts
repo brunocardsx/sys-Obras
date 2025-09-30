@@ -13,19 +13,19 @@ export const HTTP_STATUS = {
 // API Routes
 export const API_ROUTES = {
   AUTH: '/api/auth',
-  PRODUCTS: '/api/produto',
-  OBRAS: '/api/obras',
-  NOTAS_FISCAIS: '/api/notas-fiscais',
+  PRODUCTS: '/api/products',
+  PROJECTS: '/api/projects',
+  INVOICES: '/api/invoices',
   SALES: '/api/sales',
   HEALTH: '/api/health',
 } as const;
 
 // Database Table Names
 export const TABLE_NAMES = {
-  PRODUCTS: 'produtos',
-  OBRAS: 'obras',
-  NOTAS_FISCAIS: 'notas_fiscais',
-  ITENS_NOTA_FISCAL: 'itens_nota_fiscal',
+  PRODUCTS: 'products',
+  PROJECTS: 'projects',
+  INVOICES: 'invoices',
+  INVOICE_ITEMS: 'invoice_items',
 } as const;
 
 // JWT Configuration
@@ -63,8 +63,8 @@ export const ERROR_CODES = {
 // Cache Keys
 export const CACHE_KEYS = {
   PRODUCTS: 'products',
-  OBRAS: 'obras',
-  NOTAS_FISCAIS: 'notas_fiscais',
+  PROJECTS: 'projects',
+  INVOICES: 'invoices',
   USER_SESSION: 'user_session',
 } as const;
 
