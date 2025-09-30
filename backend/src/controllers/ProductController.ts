@@ -17,7 +17,6 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
   const productData = validation.data as CreateProductRequest;
   
   try {
-    // Check if product already exists
     const existingProduct = await Product.findOne({
       where: { name: productData.name }
     });
@@ -37,28 +36,38 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
 
 export const getProducts = async (_req: Request, res: Response): Promise<void> => {
   try {
+    logger.debug('Starting getProducts function');
+    
+    logger.debug('Attempting to find all products');
     const products = await Product.findAll({
       order: [['name', 'ASC']]
     });
     
+    logger.debug(`Found ${products.length} products`);
+    logger.debug('Products data:', { products: products.map(p => ({ id: p.id, name: p.name })) });
+    
     sendSuccess(res, products);
   } catch (error) {
-    logger.error('Error fetching products:', error);
+    logger.error('Error fetching products:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      errorType: typeof error,
+      errorConstructor: error?.constructor?.name
+    });
     sendInternalError(res);
   }
 };
 
 export const getProductById = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
-  const productId = parseInt(id);
   
-  if (isNaN(productId)) {
+  if (!id) {
     sendValidationError(res, 'ID do produto inválido');
     return;
   }
   
   try {
-    const product = await Product.findByPk(productId);
+    const product = await Product.findByPk(id);
     
     if (!product) {
       sendNotFoundError(res, 'Produto não encontrado');
@@ -74,9 +83,8 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
 
 export const updateProduct = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
-  const productId = parseInt(id);
   
-  if (isNaN(productId)) {
+  if (!id) {
     sendValidationError(res, 'ID do produto inválido');
     return;
   }
@@ -91,14 +99,13 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
   const updateData = validation.data as Partial<CreateProductRequest>;
   
   try {
-    const product = await Product.findByPk(productId);
+    const product = await Product.findByPk(id);
     
     if (!product) {
       sendNotFoundError(res, 'Produto não encontrado');
       return;
     }
     
-    // Check if name is being updated and if it already exists
     if (updateData.name && updateData.name !== product.name) {
       const existingProduct = await Product.findOne({
         where: { name: updateData.name }
@@ -122,15 +129,14 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
 
 export const deleteProduct = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
-  const productId = parseInt(id);
   
-  if (isNaN(productId)) {
+  if (!id) {
     sendValidationError(res, 'ID do produto inválido');
     return;
   }
   
   try {
-    const product = await Product.findByPk(productId);
+    const product = await Product.findByPk(id);
     
     if (!product) {
       sendNotFoundError(res, 'Produto não encontrado');
@@ -142,7 +148,6 @@ export const deleteProduct = async (req: Request, res: Response): Promise<void> 
   } catch (error) {
     logger.error('Error deleting product:', error);
     
-    // Check if it's a foreign key constraint error
     if (error instanceof Error && error.message.includes('foreign key constraint')) {
       sendConflictError(res, 'Este produto não pode ser excluído, pois está associado a uma ou mais notas fiscais');
       return;

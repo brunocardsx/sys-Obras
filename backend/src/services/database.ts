@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
-import { logger } from '@/utils/logger';
-import { DatabaseConfig } from '@/types';
+import { logger } from '../utils/logger';
+import { DatabaseConfig } from '../types';
 
 const createDatabaseConnection = (): Sequelize => {
   const isProduction = process.env['NODE_ENV'] === 'production';
@@ -52,8 +52,17 @@ export const initializeDatabase = async (): Promise<void> => {
     await sequelize.authenticate();
     logger.info('Database connection established successfully');
     
-    // Sync database (alter: true for development)
-    await sequelize.sync({ alter: process.env['NODE_ENV'] !== 'production' });
+    await import('../models/Product');
+    await import('../models/Project');
+    await import('../models/Invoice');
+    await import('../models/InvoiceItem');
+    logger.info('Models initialized successfully');
+    
+    const { initializeAssociations } = await import('../models/associations');
+    initializeAssociations();
+    logger.info('Model associations initialized successfully');
+    
+    await sequelize.sync({ force: false, alter: false });
     logger.info('Database synchronized successfully');
   } catch (error) {
     logger.error('Unable to connect to the database:', error);

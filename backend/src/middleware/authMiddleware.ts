@@ -2,10 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { sendUnauthorizedError, sendForbiddenError } from '../utils/response';
 import { AuthPayload } from '../types';
-// import { JWT_CONFIG } from '../types/constants';
 import { logger } from '../utils/logger';
 
-// Extend Express Request interface to include user
 declare global {
   namespace Express {
     interface Request {
@@ -37,14 +35,12 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
   try {
     const decoded = jwt.verify(token, jwtSecret) as AuthPayload;
     
-    // Check if token is expired
     const now = Math.floor(Date.now() / 1000);
     if (decoded.exp < now) {
       sendUnauthorizedError(res, 'Token expirado');
       return;
     }
     
-    // Attach user to request
     req.user = decoded;
     next();
   } catch (error) {

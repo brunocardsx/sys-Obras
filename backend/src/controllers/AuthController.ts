@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { sendSuccess, sendValidationError, sendUnauthorizedError } from './utils/response';
-import { validateRequest } from './utils/validation';
-import { loginSchema } from './utils/validation';
-import { LoginRequest, LoginResponse } from './types';
-import { JWT_CONFIG, HTTP_STATUS } from './types/constants';
-import { logger } from './utils/logger';
+import { sendSuccess, sendValidationError, sendUnauthorizedError } from '../utils/response';
+import { validateRequest } from '../utils/validation';
+import { loginSchema } from '../utils/validation';
+import { LoginRequest, LoginResponse } from '../types';
+import { JWT_CONFIG, HTTP_STATUS } from '../types/constants';
+import { logger } from '../utils/logger';
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   const validation = validateRequest(loginSchema, req.body);

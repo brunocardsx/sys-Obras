@@ -10,10 +10,7 @@ import { authMiddleware, requireAdmin } from '../middleware/authMiddleware';
 
 const router = Router();
 
-// All product routes require authentication
 router.use(authMiddleware);
-
-// All product routes require admin role
 router.use(requireAdmin);
 
 router.post('/', createProduct);
