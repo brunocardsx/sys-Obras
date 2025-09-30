@@ -1,7 +1,7 @@
 // src/components/Menu.tsx
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import './menu.css';
+import '../menu/menu.css';
 
 interface MenuItem {
   readonly path: string;
@@ -17,8 +17,8 @@ interface MenuProps {
 const PRIMARY_MENU_ITEMS: readonly MenuItem[] = [
   { path: '/dashboard', icon: 'fas fa-home', label: 'Início' },
   { path: '/select-action/venda', icon: 'fas fa-file-invoice-dollar', label: 'Cadastrar Nota' },
-  { path: '/notaFiscal', icon: 'fas fa-search', label: 'Consultar Nota' },
-  { path: '/obras', icon: 'fas fa-building-columns', label: 'Obras' },
+  { path: '/invoices', icon: 'fas fa-search', label: 'Consultar Nota' },
+  { path: '/projects', icon: 'fas fa-building-columns', label: 'Projetos' },
 ] as const;
 
 const SECONDARY_MENU_ITEMS: readonly MenuItem[] = [
@@ -30,7 +30,7 @@ const Menu: React.FC<MenuProps> = ({ isOpen, closeMenu }) => {
   const location = useLocation();
 
   const isActive = (path: string): string => {
-    if (path === '/notaFiscal' && location.pathname.includes('/notaFiscal')) {
+    if (path === '/invoices' && location.pathname.includes('/invoices')) {
       return 'active';
     }
     return location.pathname === path ? 'active' : '';
@@ -98,4 +98,4 @@ const Menu: React.FC<MenuProps> = ({ isOpen, closeMenu }) => {
   );
 };
 
-export default Menu;
+export { Menu };

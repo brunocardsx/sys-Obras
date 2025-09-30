@@ -4,10 +4,10 @@ import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Link } from 'react-router-dom';
-import api from '../services/api';
-import './dashboard.css';
-import { CHART_COLORS, CHART_CONFIG } from '@/types/constants';
-import { formatCurrency } from '@/utils/format';
+import { api } from '../services/api';
+import '../dashboard/dashboard.css';
+import { CHART_COLORS, CHART_CONFIG } from '../types/constants';
+import { formatCurrency } from '../utils/format';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
@@ -16,9 +16,9 @@ interface ChartData {
   readonly total_compras: number;
 }
 
-interface Obra {
-  readonly id: number;
-  readonly nome: string;
+interface Project {
+  readonly id: string;
+  readonly name: string;
 }
 
 interface NavCard {
@@ -30,64 +30,83 @@ interface NavCard {
 const Dashboard: React.FC = () => {
   const [dadosGrafico, setDadosGrafico] = useState<ChartData[]>([]);
   const [mesSelecionado, setMesSelecionado] = useState<string>('todos');
-  const [obras, setObras] = useState<Obra[]>([]);
-  const [obraSelecionada, setObraSelecionada] = useState<string>('');
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedProject, setSelectedProject] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
 
   useEffect(() => {
-    fetchObras();
+    fetchProjects();
   }, []);
 
   useEffect(() => {
-    if (obraSelecionada) {
+    if (selectedProject) {
       fetchMonthlyInvoices();
     } else {
       setDadosGrafico([]);
     }
-  }, [obraSelecionada]);
+  }, [selectedProject]);
 
-  const fetchObras = async (): Promise<void> => {
+  const fetchProjects = async (): Promise<void> => {
     try {
       setErrorMsg('');
-      const { data } = await api.get('/api/obras');
+      const { data } = await api.get('/api/projects');
       
       if (data.status) {
-        setObras(data.obras);
+        setProjects(data.data || []);
       } else {
-        setErrorMsg(`Erro ao buscar obras: ${data.message || ''}`);
+        setErrorMsg(`Erro ao buscar projetos: ${data.message || ''}`);
       }
     } catch (error) {
-      console.error('Erro API Obras:', error);
-      setErrorMsg('Falha ao conectar com o servidor para buscar obras.');
+      console.error('Erro API Projetos:', error);
+      setErrorMsg('Falha ao conectar com o servidor para buscar projetos.');
     }
   };
 
   const fetchMonthlyInvoices = async (): Promise<void> => {
-    if (!obraSelecionada) return;
+    if (!selectedProject) return;
     
     setLoading(true);
     setErrorMsg('');
 
     try {
-      const url = `/api/notas-fiscais/mensal/${obraSelecionada}`;
-      const { data } = await api.get(url);
-
+      // Buscar todas as notas fiscais da obra selecionada
+      const { data } = await api.get('/api/invoices');
+      
       if (data.status && Array.isArray(data.data)) {
-        const dadosCorrigidos = data.data.map((item: any) => ({
-          ...item,
-          total_compras: parseFloat(item.total_compras) || 0,
+        // Filtrar notas fiscais da obra selecionada
+        const invoicesProject = data.data.filter((invoice: any) => invoice.projectId === selectedProject);
+        
+        // Agrupar por mês e calcular totais
+        const gastosPorMes: { [key: string]: number } = {};
+        
+        invoicesProject.forEach((invoice: any) => {
+          const mes = new Date(invoice.issueDate).toLocaleDateString('pt-BR', { 
+            year: 'numeric', 
+            month: 'long' 
+          });
+          
+          if (!gastosPorMes[mes]) {
+            gastosPorMes[mes] = 0;
+          }
+          gastosPorMes[mes] += parseFloat(invoice.totalAmount) || 0;
+        });
+        
+        // Converter para array
+        const dadosCorrigidos = Object.entries(gastosPorMes).map(([mes, total_compras]) => ({
+          mes,
+          total_compras: parseFloat(total_compras.toString()) || 0,
         }));
         
         setDadosGrafico(dadosCorrigidos);
         
         if (dadosCorrigidos.length === 0) {
-          setErrorMsg('Nenhum dado de compra encontrado para esta obra.');
+          setErrorMsg('Nenhum dado de compra encontrado para este projeto.');
         }
       } else {
         console.warn('Dados não retornados ou formato inesperado:', data);
         setDadosGrafico([]);
-        setErrorMsg(data.message || 'Nenhum dado retornado para a obra selecionada.');
+        setErrorMsg(data.message || 'Nenhum dado retornado para o projeto selecionado.');
       }
     } catch (error: any) {
       console.error('Erro API Notas:', error);
@@ -98,8 +117,8 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleObraChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    setObraSelecionada(e.target.value);
+  const handleProjectChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    setSelectedProject(e.target.value);
     setMesSelecionado('todos');
     setErrorMsg('');
   };
@@ -169,12 +188,12 @@ const Dashboard: React.FC = () => {
       icon: <div className="icon-wrapper"><i className="fas fa-plus" /></div> 
     },
     { 
-      to: "/obras", 
-      label: "Obras", 
+      to: "/projects", 
+      label: "Projetos", 
       icon: <div className="icon-wrapper"><i className="fas fa-building-columns" /></div> 
     },
     { 
-      to: "/notaFiscal", 
+      to: "/invoices", 
       label: "Nota Fiscal", 
       icon: <div className="icon-wrapper"><i className="fas fa-file-invoice-dollar" /></div> 
     },
@@ -202,19 +221,21 @@ const Dashboard: React.FC = () => {
           <h2 className="section-title">Distribuição de Compras por Mês</h2>
           <div className="filters-container">
             <div className="filter-group">
-              <label htmlFor="obra-select">Obra:</label>
+              <label htmlFor="project-select">Projeto:</label>
               <select 
-                id="obra-select" 
+                id="project-select" 
                 className="dashboard-select" 
-                value={obraSelecionada} 
-                onChange={handleObraChange}
+                value={selectedProject} 
+                onChange={handleProjectChange}
               >
-                <option value="">Selecione uma obra</option>
-                {obras.map((obra) => (
-                  <option key={obra.id} value={obra.id}>
-                    {obra.nome}
+                <option value="">Selecione um projeto</option>
+                {projects && projects.length > 0 ? projects.map((project) => (
+                  <option key={project.id} value={project.id}>
+                    {project.name}
                   </option>
-                ))}
+                )) : (
+                  <option value="" disabled>Carregando projetos...</option>
+                )}
               </select>
             </div>
             <div className="filter-group">
@@ -224,7 +245,7 @@ const Dashboard: React.FC = () => {
                 className="dashboard-select" 
                 value={mesSelecionado} 
                 onChange={handleMesChange} 
-                disabled={!obraSelecionada || loading || mesesDisponiveis.length === 0}
+                disabled={!selectedProject || loading || mesesDisponiveis.length === 0}
               >
                 <option value="todos">Todos os meses</option>
                 {mesesDisponiveis.map(mes => (
@@ -241,17 +262,17 @@ const Dashboard: React.FC = () => {
               <p className="loading-text">Carregando...</p>
             ) : dadosGrafico.length > 0 && dadosFiltrados.length > 0 ? (
               <Pie data={dataGraficoPizza} options={optionsGraficoPizza} />
-            ) : !loading && obraSelecionada && !errorMsg ? (
+            ) : !loading && selectedProject && !errorMsg ? (
               <p className="no-data-text">Nenhum dado para exibir.</p>
             ) : (
-              <p className="no-data-text">Selecione uma obra para visualizar os gastos.</p>
+              <p className="no-data-text">Selecione um projeto para visualizar os gastos.</p>
             )}
           </div>
         </section>
       </main>
 
       <aside className="dashboard-right-sidebar">
-        {obraSelecionada && dadosFiltrados.length > 0 && !loading && (
+        {selectedProject && dadosFiltrados.length > 0 && !loading && (
           <div className="widget-card">
             <h3>Total de Gastos (Filtro)</h3>
             <p className="total-gastos-value">
@@ -281,4 +302,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export { Dashboard };
