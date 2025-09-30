@@ -10,4 +10,4 @@ const Receive: React.FC = () => {
   );
 };
 
-export default Receive;
+export { Receive };

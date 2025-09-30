@@ -1,8 +1,8 @@
 // src/pages/Login.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './login.css';
-import { STORAGE_KEYS, ERROR_MESSAGES } from '@/types/constants';
+import '../login/login.css';
+import { STORAGE_KEYS, ERROR_MESSAGES } from '../types/constants';
 
 // Phone Icon component
 const PhoneIcon: React.FC = () => (
@@ -36,7 +36,8 @@ const Login: React.FC = () => {
     setError('');
 
     try {
-      const response = await fetch(`${process.env['REACT_APP_API_URL']}/api/auth/login`, {
+      const apiUrl = process.env['REACT_APP_API_URL'] || 'http://localhost:8081';
+      const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +51,11 @@ const Login: React.FC = () => {
         throw new Error(data.message || ERROR_MESSAGES.NETWORK_ERROR);
       }
 
-      localStorage.setItem(STORAGE_KEYS.LOGIN_TOKEN, data.token);
+      if (!data.status || !data.data || !data.data.token) {
+        throw new Error('Resposta inválida do servidor');
+      }
+
+      localStorage.setItem(STORAGE_KEYS.LOGIN_TOKEN, data.data.token);
       navigate('/dashboard');
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : ERROR_MESSAGES.NETWORK_ERROR;
@@ -122,4 +127,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export { Login };

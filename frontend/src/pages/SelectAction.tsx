@@ -10,4 +10,4 @@ const SelectAction: React.FC = () => {
   );
 };
 
-export default SelectAction;
+export { SelectAction };

@@ -12,4 +12,4 @@ const Error404: React.FC = () => {
   );
 };
 
-export default Error404;
+export { Error404 };

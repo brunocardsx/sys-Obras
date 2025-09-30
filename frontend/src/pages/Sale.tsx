@@ -10,4 +10,4 @@ const Sale: React.FC = () => {
   );
 };
 
-export default Sale;
+export { Sale };

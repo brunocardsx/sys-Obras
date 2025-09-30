@@ -10,4 +10,4 @@ const Stock: React.FC = () => {
   );
 };
 
-export default Stock;
+export { Stock };
