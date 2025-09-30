@@ -1,5 +1,5 @@
 import winston from 'winston';
-// import { Environment } from '@/types';
+// import { Environment } from '../types';
 
 const createLogger = (): winston.Logger => {
   const isDevelopment = process.env['NODE_ENV'] === 'development';

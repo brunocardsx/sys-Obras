@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { sendUnauthorizedError, sendForbiddenError } from '@/utils/response';
-import { AuthPayload } from '@/types';
-// import { JWT_CONFIG } from '@/types/constants';
-import { logger } from '@/utils/logger';
+import { sendUnauthorizedError, sendForbiddenError } from '../utils/response';
+import { AuthPayload } from '../types';
+// import { JWT_CONFIG } from '../types/constants';
+import { logger } from '../utils/logger';
 
 // Extend Express Request interface to include user
 declare global {

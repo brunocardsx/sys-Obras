@@ -1,6 +1,6 @@
 import { Response } from 'express';
-import { HTTP_STATUS, VALIDATION_MESSAGES } from '@/types/constants';
-import { ApiResponse } from '@/types';
+import { HTTP_STATUS, VALIDATION_MESSAGES } from '../types/constants';
+import { ApiResponse } from '../types';
 
 export const sendSuccess = <T>(
   res: Response,

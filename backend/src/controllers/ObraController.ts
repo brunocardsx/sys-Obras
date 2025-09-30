@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { Obra } from '@/models/Obra';
-import { sendSuccess, sendValidationError, sendNotFoundError, sendConflictError, sendInternalError } from '@/utils/response';
-import { validateRequest } from '@/utils/validation';
-import { createObraSchema, updateObraSchema } from '@/utils/validation';
-import { CreateObraRequest } from '@/types';
-import { logger } from '@/utils/logger';
+import { Obra } from '../models/Obra';
+import { sendSuccess, sendValidationError, sendNotFoundError, sendConflictError, sendInternalError } from '../utils/response';
+import { validateRequest } from '../utils/validation';
+import { createObraSchema, updateObraSchema } from '../utils/validation';
+import { CreateObraRequest } from '../types';
+import { logger } from '../utils/logger';
 
 export const createObra = async (req: Request, res: Response): Promise<void> => {
   const validation = validateRequest(createObraSchema, req.body);

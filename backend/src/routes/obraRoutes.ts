@@ -5,8 +5,8 @@ import {
   getObraById, 
   updateObra, 
   deleteObra 
-} from '@/controllers/ObraController';
-import { authMiddleware, requireAdmin } from '@/middleware/authMiddleware';
+} from '../controllers/ObraController';
+import { authMiddleware, requireAdmin } from '../middleware/authMiddleware';
 
 const router = Router();
 

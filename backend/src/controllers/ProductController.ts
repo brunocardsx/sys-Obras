@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { Product } from '@/models/Product';
-import { sendSuccess, sendValidationError, sendNotFoundError, sendConflictError, sendInternalError } from '@/utils/response';
-import { validateRequest } from '@/utils/validation';
-import { createProductSchema, updateProductSchema } from '@/utils/validation';
-import { CreateProductRequest } from '@/types';
-import { logger } from '@/utils/logger';
+import { Product } from '../models/Product';
+import { sendSuccess, sendValidationError, sendNotFoundError, sendConflictError, sendInternalError } from '../utils/response';
+import { validateRequest } from '../utils/validation';
+import { createProductSchema, updateProductSchema } from '../utils/validation';
+import { CreateProductRequest } from '../types';
+import { logger } from '../utils/logger';
 
 export const createProduct = async (req: Request, res: Response): Promise<void> => {
   const validation = validateRequest(createProductSchema, req.body);

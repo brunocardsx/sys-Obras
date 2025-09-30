@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { CreateProductRequest, CreateObraRequest, CreateNotaFiscalRequest, LoginRequest } from '@/types';
+import { CreateProductRequest, CreateObraRequest, CreateNotaFiscalRequest, LoginRequest } from '../types';
 
 // Product validation schemas
 export const createProductSchema = Joi.object<CreateProductRequest>({

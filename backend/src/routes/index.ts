@@ -2,7 +2,7 @@ import { Application } from 'express';
 import { authRoutes } from './authRoutes';
 import { productRoutes } from './productRoutes';
 import { obraRoutes } from './obraRoutes';
-import { API_ROUTES } from '@/types/constants';
+import { API_ROUTES } from '../types/constants';
 
 export const setupRoutes = (app: Application): void => {
   // Public routes
