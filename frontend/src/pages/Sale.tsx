@@ -6,7 +6,7 @@ const Sale: React.FC = () => {
     <div>
       <h1>Venda</h1>
       <p>Página de venda em desenvolvimento...</p>
-    </div>
+      </div>
   );
 };
 

@@ -1,7 +1,7 @@
-import { Product } from './Product';
-import { Obra } from './Obra';
-import { NotaFiscal } from './NotaFiscal';
-import { ItemNotaFiscal } from './ItemNotaFiscal';
+import { Product } from '../Product';
+import { Obra } from '../Obra';
+import { NotaFiscal } from '../NotaFiscal';
+import { ItemNotaFiscal } from '../ItemNotaFiscal';
 
 // Define associations
 const setupAssociations = (): void => {

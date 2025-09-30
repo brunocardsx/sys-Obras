@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
-import { logger } from '../utils/logger';
-import { DatabaseConfig } from '../types';
+import { logger } from '@/utils/logger';
+import { DatabaseConfig } from '@/types';
 
 const createDatabaseConnection = (): Sequelize => {
   const isProduction = process.env['NODE_ENV'] === 'production';

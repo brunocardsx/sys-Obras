@@ -3,11 +3,11 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import { logger, logError } from './utils/logger';
-import { HTTP_STATUS } from './types/constants';
-import { sendSuccess, sendInternalError } from './utils/response';
-import { initializeDatabase } from './services/database';
-import { setupRoutes } from './routes';
+import { logger, logError } from '@/utils/logger';
+import { HTTP_STATUS } from '@/types/constants';
+import { sendSuccess, sendInternalError } from '@/utils/response';
+import { initializeDatabase } from '@/services/database';
+import { setupRoutes } from '@/routes';
 
 const createApp = (): express.Application => {
   const app = express();
