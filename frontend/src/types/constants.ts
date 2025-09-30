@@ -1,9 +1,9 @@
 // API Routes
 export const API_ROUTES = {
   AUTH: '/api/auth',
-  PRODUCTS: '/api/produto',
-  OBRAS: '/api/obras',
-  NOTAS_FISCAIS: '/api/notas-fiscais',
+  PRODUCTS: '/api/products',
+  PROJECTS: '/api/projects',
+  INVOICES: '/api/invoices',
   SALES: '/api/sales',
   HEALTH: '/api/health',
 } as const;
@@ -12,10 +12,10 @@ export const API_ROUTES = {
 export const APP_ROUTES = {
   LOGIN: '/login',
   DASHBOARD: '/dashboard',
-  PRODUCTS: '/produto',
-  OBRAS: '/obras',
-  NOTA_FISCAL: '/notaFiscal',
-  STOCK: '/estoque',
+  PRODUCTS: '/products',
+  PROJECTS: '/projects',
+  INVOICES: '/invoices',
+  STOCK: '/stock',
   SALE: '/select-action',
   SALE_VENDA: '/select-action/venda',
   SALE_RECEIVE: '/select-action/receber',
@@ -67,10 +67,10 @@ export const SUCCESS_MESSAGES = {
   PRODUCT_CREATED: 'Produto criado com sucesso',
   PRODUCT_UPDATED: 'Produto atualizado com sucesso',
   PRODUCT_DELETED: 'Produto excluído com sucesso',
-  OBRA_CREATED: 'Obra criada com sucesso',
-  OBRA_UPDATED: 'Obra atualizada com sucesso',
-  OBRA_DELETED: 'Obra excluída com sucesso',
-  NOTA_FISCAL_CREATED: 'Nota fiscal criada com sucesso',
+  PROJECT_CREATED: 'Projeto criado com sucesso',
+  PROJECT_UPDATED: 'Projeto atualizado com sucesso',
+  PROJECT_DELETED: 'Projeto excluído com sucesso',
+  INVOICE_CREATED: 'Nota fiscal criada com sucesso',
 } as const;
 
 // UI Constants
