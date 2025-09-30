@@ -78,8 +78,8 @@ export const validateProductQuantity = (quantity: string | number): string | nul
   return validateInteger(quantity);
 };
 
-// Obra validation
-export const validateObraName = (name: string): string | null => {
+// Project validation
+export const validateProjectName = (name: string): string | null => {
   return validateProductName(name); // Same validation rules
 };
 
