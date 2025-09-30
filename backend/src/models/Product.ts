@@ -2,21 +2,35 @@ import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../services/database';
 
 interface ProductAttributes {
-  id?: number;
+  id?: string;
+  code: string;
   name: string;
-  brand?: string;
-  cost: number;
-  resalePrice: number;
+  description?: string;
+  categoryId?: string;
+  unit?: string;
+  costPrice: number;
+  sellingPrice: number;
+  stockQuantity?: number;
+  minStock?: number;
+  maxStock?: number;
+  isActive?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 class Product extends Model<ProductAttributes> implements ProductAttributes {
-  public id?: number;
+  public id?: string;
+  public code!: string;
   public name!: string;
-  public brand?: string;
-  public cost!: number;
-  public resalePrice!: number;
+  public description?: string;
+  public categoryId?: string;
+  public unit?: string;
+  public costPrice!: number;
+  public sellingPrice!: number;
+  public stockQuantity?: number;
+  public minStock?: number;
+  public maxStock?: number;
+  public isActive?: boolean;
   public createdAt?: Date;
   public updatedAt?: Date;
 }
@@ -24,12 +38,21 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
 Product.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true,
+      defaultValue: DataTypes.UUIDV4,
+    },
+    code: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: true,
+        len: [1, 100],
+      },
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
       validate: {
@@ -37,36 +60,72 @@ Product.init(
         len: [1, 255],
       },
     },
-    brand: {
-      type: DataTypes.STRING,
+    description: {
+      type: DataTypes.TEXT,
       allowNull: true,
-      validate: {
-        len: [0, 255],
-      },
     },
-    cost: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
-      defaultValue: 0.00,
+    categoryId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      field: 'category_id',
+    },
+    unit: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+      defaultValue: 'un',
+    },
+    costPrice: {
+      type: DataTypes.DECIMAL(15, 2),
+      allowNull: true,
+      defaultValue: 0,
+      field: 'cost_price',
       validate: {
         min: 0,
       },
     },
-    resalePrice: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
-      defaultValue: 0.00,
+    sellingPrice: {
+      type: DataTypes.DECIMAL(15, 2),
+      allowNull: true,
+      defaultValue: 0,
+      field: 'selling_price',
       validate: {
         min: 0,
       },
+    },
+    stockQuantity: {
+      type: DataTypes.DECIMAL(15, 3),
+      allowNull: true,
+      defaultValue: 0,
+      field: 'stock_quantity',
+    },
+    minStock: {
+      type: DataTypes.DECIMAL(15, 3),
+      allowNull: true,
+      defaultValue: 0,
+      field: 'min_stock',
+    },
+    maxStock: {
+      type: DataTypes.DECIMAL(15, 3),
+      allowNull: true,
+      field: 'max_stock',
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: true,
+      field: 'is_active',
     },
   },
   {
     sequelize,
-    tableName: 'produtos',
+    tableName: 'products',
     timestamps: true,
     underscored: true,
     indexes: [
+      {
+        unique: true,
+        fields: ['code'],
+      },
       {
         unique: true,
         fields: ['name'],
@@ -75,5 +134,5 @@ Product.init(
   }
 );
 
-export { Product };
+export { Product, type ProductAttributes };
 
