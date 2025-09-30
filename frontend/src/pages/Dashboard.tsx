@@ -153,7 +153,7 @@ const Dashboard: React.FC = () => {
       },
       datalabels: {
         color: '#FFFFFF',
-        font: { weight: 'bold' },
+        font: { weight: 'bold' as const },
         formatter: (value: number) => formatCurrency(value),
         display: (c: any) => (c.dataset.data[c.dataIndex] / totalGastos) > 0.05,
       },
