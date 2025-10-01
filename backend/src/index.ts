@@ -37,9 +37,32 @@ const createApp = (): express.Application => {
   });
   app.use(limiter);
   
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3001';
+  const allowedOrigins = [
+    'http://localhost:3001',
+    'https://sys-obras-ics3-git-master-brunocardsxs-projects.vercel.app',
+    'https://*.vercel.app'
+  ];
+  
   app.use(cors({
-    origin: frontendUrl,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, curl, etc.)
+      if (!origin) return callback(null, true);
+      
+      // Check if origin is in allowed list
+      const isAllowed = allowedOrigins.some(allowedOrigin => {
+        if (allowedOrigin.includes('*')) {
+          const pattern = allowedOrigin.replace('*', '.*');
+          return new RegExp(pattern).test(origin);
+        }
+        return origin === allowedOrigin;
+      });
+      
+      if (isAllowed) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
