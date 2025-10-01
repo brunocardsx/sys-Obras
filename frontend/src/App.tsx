@@ -47,6 +47,18 @@ const MainLayout: React.FC = () => {
   const toggleMenu = (): void => setIsMenuOpen(!isMenuOpen);
   const closeMenu = (): void => setIsMenuOpen(false);
 
+  // Fecha o menu quando a tela for redimensionada para desktop
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <div className="app-layout">
       <Menu isOpen={isMenuOpen} closeMenu={closeMenu} />

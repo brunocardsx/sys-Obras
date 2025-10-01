@@ -3,8 +3,21 @@
 
 /* --- Reset e Configurações Globais --- */
 :root {
-    /* Definimos a cor primária do texto aqui para herança global */
+    /* Variáveis do projeto para consistência global */
+    --db-bg-main: #1C1D21;
+    --db-bg-card: #2A2D35;
+    --db-bg-card-hover: #353842;
     --db-text-primary: #F0F2F5;
+    --db-text-secondary: #A9B1C2;
+    --db-text-label: #8A91A0;
+    --db-text-highlight: #D1D9E6;
+    --db-accent-primary: #2a9d47; /* Verde mais escuro da logo */
+    --db-accent-primary-hover: #1e7a35; /* Verde mais escuro para hover */
+    --db-border-color: #3B3E47;
+    --db-red-error: #F47174;
+    --db-red-error-bg: rgba(244, 113, 116, 0.1);
+    --db-border-radius: 16px;
+    --db-font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 html, body, #root {
@@ -16,9 +29,9 @@ html, body, #root {
 
 body {
     /* Usa a mesma fonte e cor de fundo do resto do seu app para uma base consistente */
-    font-family: 'Inter', sans-serif;
-    background-color: #1C1D21; /* Fundo escuro padrão */
-    color: var(--db-text-primary); /* Cor de texto padrão */
+    font-family: var(--db-font-main);
+    background-color: var(--db-bg-main);
+    color: var(--db-text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -32,8 +45,25 @@ body {
 .app-layout {
     display: grid;
     /* CORREÇÃO: Define a coluna do menu com a largura fixa usada no projeto */
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: 240px 1fr;
     min-height: 100vh;
+    background-color: var(--db-bg-main);
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 255, 136, 0.03) 0%, transparent 50%);
+}
+
+/* Área de conteúdo principal ocupa toda a altura */
+.main-content-area {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.content-container {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
 }
 
 
@@ -47,5 +77,14 @@ body {
         /* Muda o layout para UMA ÚNICA COLUNA, fazendo o conteúdo ocupar 100% da largura. */
         /* Esta é a regra que resolve o problema da "faixa lateral". */
         grid-template-columns: 1fr;
+    }
+
+    /* Ajusta o conteúdo principal para compensar o header fixo */
+    .main-content-area {
+        padding-top: 60px; /* Espaço para o header fixo */
+    }
+
+    .content-container {
+        padding: 20px 16px; /* Padding menor nas laterais para mobile */
     }
 }

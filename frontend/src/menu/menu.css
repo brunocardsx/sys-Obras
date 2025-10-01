@@ -1,32 +1,42 @@
-/* src/components/menu.css */
+/* Menu Lateral - Versão Harmoniosa e Suave */
+
 :root {
-  --menu-bg: #1F2D2D;
-  --menu-text: #A9B1C2;
-  --menu-text-active: #FFFFFF;
-  --menu-icon: #8A91A0;
-  --menu-icon-active: #2DD4BF;
-  --menu-hover-bg: #2A3B3B;
-  --menu-active-bg: #2D4343;
+  /* Usando as mesmas variáveis do dashboard */
+  --db-bg-main: #1C1D21;
+  --db-bg-card: #2A2D35;
+  --db-bg-card-hover: #353842;
+  --db-text-primary: #F0F2F5;
+  --db-text-secondary: #A9B1C2;
+  --db-text-label: #8A91A0;
+  --db-text-highlight: #D1D9E6;
+  --db-accent-primary: #2a9d47;
+  --db-accent-primary-hover: #1e7a35;
+  --db-border-color: #3B3E47;
+  --db-red-error: #F47174;
+  --db-red-error-bg: rgba(244, 113, 116, 0.1);
+  --db-border-radius: 16px;
+  --db-font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
+/* Container principal do menu - mais suave e integrado */
 .menu-container {
   grid-column: 1 / 2;
-  width: 260px;
-  background-color: var(--menu-bg);
-  padding: 24px;
+  width: 240px;
+  background: transparent; /* Transparente para se integrar ao fundo */
+  padding: 0;
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
   z-index: 999;
-
-  /* ========================================================== */
-  /* CORREÇÃO 1: Adiciona scroll ao menu se ele for muito alto  */
-  /* ========================================================== */
+  position: relative;
+  overflow: hidden;
+  font-family: var(--db-font-main);
   overflow-y: auto;
+  backdrop-filter: blur(10px); /* Efeito de vidro fosco */
 }
 
-/* --- Overlay para fechar menu no mobile --- */
+/* Overlay para mobile */
 .menu-overlay {
   display: none;
   position: fixed;
@@ -34,90 +44,199 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 998;
-}
-.menu-overlay.show {
-  display: block;
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* ========================================================== */
-/* CORREÇÃO 2: Garante que a logo fique maior e centralizada  */
-/* ========================================================== */
+.menu-overlay.show {
+  display: block;
+  opacity: 1;
+}
+
+/* Logo Section - mais sutil e integrada */
 .logo-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
-  margin-bottom: 30px;
-  /* Garante que o container da logo não encolha */
+  padding: 20px;
+  margin-bottom: 20px;
   flex-shrink: 0;
 }
 
-.logo-container img {
-  width: 250px; /* <<-- Ajuste este valor se quiser maior ou menor */
-  height: auto;
-}
+/* Linha verde removida para melhor harmonia visual */
 
-/* --- Estrutura da Navegação --- */
+/* Logo limpa - sem efeitos */
+
+/* Navegação principal - mais suave */
 .menu-nav {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px; /* Espaçamento menor */
+  padding: 0 16px;
 }
 
 .menu-item-link {
   text-decoration: none;
+  position: relative;
 }
 
+/* Itens do menu - estilo mais suave e integrado */
 .menu-item {
   display: flex;
   align-items: center;
-  padding: 12px 16px;
-  border-radius: 8px;
-  color: var(--menu-text);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  padding: 14px 18px; /* Padding menor */
+  border-radius: 12px; /* Bordas menos arredondadas */
+  color: var(--db-text-secondary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  font-weight: 500;
+  font-size: 14px;
+  margin: 1px 0; /* Margem menor */
+  background: rgba(42, 45, 53, 0.2); /* Fundo muito sutil */
+  border: 1px solid rgba(59, 62, 71, 0.2); /* Borda muito sutil */
+  overflow: hidden;
 }
+
+.menu-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px; /* Linha mais fina */
+  background: var(--db-accent-primary);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+  opacity: 0.8;
+}
+
 .menu-item:hover {
-  background-color: var(--menu-hover-bg);
-  color: var(--menu-text-active);
+  background: rgba(42, 45, 53, 0.4); /* Hover mais sutil */
+  color: var(--db-text-primary);
+  transform: translateY(-1px); /* Movimento menor */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra mais suave */
+  border-color: rgba(42, 157, 71, 0.3); /* Borda com accent sutil */
 }
+
+.menu-item:hover::before {
+  transform: scaleY(1);
+}
+
 .menu-item.active {
-  background-color: var(--menu-active-bg);
-  color: var(--menu-text-active);
+  background: rgba(42, 157, 71, 0.15); /* Fundo com accent muito sutil */
+  color: var(--db-text-primary);
   font-weight: 600;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 25px rgba(42, 157, 71, 0.2); /* Sombra com accent */
+  border-color: rgba(42, 157, 71, 0.4);
 }
 
+.menu-item.active::before {
+  transform: scaleY(1);
+}
+
+/* Ícones do menu - mais sutis */
 .menu-item i {
-  font-size: 1.1rem;
-  width: 24px;
-  margin-right: 16px;
-  color: var(--menu-icon);
-  transition: color 0.2s ease;
+  font-size: 1.1rem; /* Tamanho menor */
+  width: 22px; /* Largura menor */
+  margin-right: 14px; /* Espaçamento menor */
+  color: var(--db-text-secondary); /* Cor mais sutil */
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .menu-item:hover i, .menu-item.active i {
-  color: var(--menu-icon-active);
+  color: var(--db-accent-primary);
+  transform: scale(1.05); /* Escala menor */
 }
 
+/* Texto do menu */
 .menu-item-text {
-  transition: opacity 0.2s ease;
+  transition: all 0.3s ease;
+  font-weight: inherit;
 }
 
-/* --- Separador e Seção Inferior --- */
+.menu-item:hover .menu-item-text {
+  transform: translateX(1px); /* Movimento menor */
+}
+
+/* Separador - mais sutil */
 .menu-spacer {
   flex-grow: 1;
+  position: relative;
 }
 
-/* --- RESPONSIVIDADE PARA O MENU HAMBURGER --- */
+.menu-spacer::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%; /* Largura menor */
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(59, 62, 71, 0.5), transparent);
+}
+
+/* Seção inferior - estilo diferenciado mas mais sutil */
+.menu-nav:last-of-type {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(59, 62, 71, 0.3);
+}
+
+.menu-nav:last-of-type .menu-item {
+  background: rgba(42, 45, 53, 0.2);
+  border: 1px solid rgba(59, 62, 71, 0.2);
+}
+
+.menu-nav:last-of-type .menu-item:hover {
+  background: rgba(244, 113, 116, 0.1); /* Hover vermelho mais sutil */
+  border-color: rgba(244, 113, 116, 0.3);
+  color: var(--db-red-error);
+}
+
+.menu-nav:last-of-type .menu-item:hover i {
+  color: var(--db-red-error);
+}
+
+/* Scrollbar customizada - mais sutil */
+.menu-container::-webkit-scrollbar {
+  width: 3px; /* Mais fina */
+}
+
+.menu-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.menu-container::-webkit-scrollbar-thumb {
+  background: rgba(42, 157, 71, 0.5); /* Mais sutil */
+  border-radius: 2px;
+}
+
+.menu-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(42, 157, 71, 0.7);
+}
+
+/* Responsividade para mobile */
 @media (max-width: 768px) {
   .menu-container {
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
+    width: 280px; /* Largura um pouco maior para melhor usabilidade */
     transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    background: rgba(28, 29, 33, 0.98); /* Fundo mais sólido no mobile */
+    backdrop-filter: blur(20px);
+    border-right: 1px solid var(--db-border-color);
   }
 
   .menu-container.open {
@@ -127,4 +246,96 @@
   .menu-overlay.show {
     display: block;
   }
+
+  .logo-container {
+    padding: 24px 20px;
+    background: rgba(42, 45, 53, 0.4);
+    border-bottom: 1px solid var(--db-border-color);
+    margin-bottom: 24px;
+  }
+
+  .logo-container img {
+    width: 200px; /* Logo um pouco maior no mobile */
+  }
+
+  .menu-nav {
+    padding: 0 16px;
+    gap: 8px; /* Espaçamento maior entre itens */
+  }
+
+  .menu-item {
+    padding: 16px 18px; /* Padding maior para melhor toque */
+    font-size: 15px; /* Fonte um pouco maior para legibilidade */
+    background: rgba(42, 45, 53, 0.4);
+    border: 1px solid rgba(59, 62, 71, 0.3);
+    margin: 2px 0; /* Margem maior entre itens */
+  }
+
+  .menu-item:hover {
+    background: rgba(42, 45, 53, 0.6);
+    transform: translateY(-2px); /* Movimento maior no mobile */
+  }
+
+  .menu-item.active {
+    background: rgba(42, 157, 71, 0.2);
+    border-color: rgba(42, 157, 71, 0.5);
+  }
+
+  .menu-item i {
+    font-size: 1.3rem; /* Ícones maiores no mobile */
+    width: 24px;
+    margin-right: 16px;
+  }
+
+  /* Melhorar a seção inferior no mobile */
+  .menu-nav:last-of-type {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(59, 62, 71, 0.4);
+  }
+
+  .menu-nav:last-of-type .menu-item {
+    background: rgba(42, 45, 53, 0.4);
+    border: 1px solid rgba(59, 62, 71, 0.3);
+  }
+
+  .menu-nav:last-of-type .menu-item:hover {
+    background: rgba(244, 113, 116, 0.15);
+    border-color: rgba(244, 113, 116, 0.4);
+  }
+}
+
+/* Animações de entrada - mais suaves */
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-15px); /* Movimento menor */
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.menu-item {
+  animation: slideInFromLeft 0.4s ease-out; /* Duração maior */
+}
+
+.menu-item:nth-child(1) { animation-delay: 0.1s; }
+.menu-item:nth-child(2) { animation-delay: 0.15s; }
+.menu-item:nth-child(3) { animation-delay: 0.2s; }
+.menu-item:nth-child(4) { animation-delay: 0.25s; }
+.menu-item:nth-child(5) { animation-delay: 0.3s; }
+.menu-item:nth-child(6) { animation-delay: 0.35s; }
+
+/* Melhorar foco para acessibilidade */
+.menu-item-link:focus {
+  outline: 2px solid var(--db-accent-primary);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+/* Transições globais - mais suaves */
+* {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
