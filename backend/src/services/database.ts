@@ -12,23 +12,24 @@ const createDatabaseConnection = (): Sequelize => {
     hasDB_HOST: !!process.env['DB_HOST'],
     DATABASE_URL: process.env['DATABASE_URL'] ? '***hidden***' : 'not set',
     DB_HOST: process.env['DB_HOST'],
+    allEnvVars: Object.keys(process.env).filter(key => key.includes('DATABASE') || key.includes('PG') || key.includes('DB')).join(', ')
   });
   
   if (isProduction) {
-    // Use DATABASE_URL if available (Railway), otherwise use individual variables
-    if (process.env['DATABASE_URL']) {
-      logger.info('Using DATABASE_URL for connection');
-      return new Sequelize(process.env['DATABASE_URL']!, {
-        dialect: 'postgres',
-        dialectOptions: {
-          ssl: {
-            require: true,
-            rejectUnauthorized: false,
-          },
+    // Force use DATABASE_URL from Railway (hardcoded for testing)
+    const databaseUrl = process.env['DATABASE_URL'] || 'postgresql://postgres:yxEaSNVppoBNxUrIvJOwquOqRuomLhiM@postgres.railway.internal:5432/railway';
+    
+    logger.info('Using DATABASE_URL for connection:', databaseUrl ? '***hidden***' : 'not set');
+    return new Sequelize(databaseUrl, {
+      dialect: 'postgres',
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
         },
-        logging: false,
-      });
-    }
+      },
+      logging: false,
+    });
     
     logger.info('Using individual DB variables for connection');
     const config: DatabaseConfig = {
