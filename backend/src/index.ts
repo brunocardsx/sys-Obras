@@ -76,15 +76,25 @@ const createApp = (): express.Application => {
 
 const startServer = async (): Promise<void> => {
   try {
-    await initializeDatabase();
+    logger.info('Starting server initialization...');
     
+    logger.info('Initializing database...');
+    await initializeDatabase();
+    logger.info('Database initialized successfully');
+    
+    logger.info('Creating Express app...');
     const app = createApp();
+    logger.info('Express app created successfully');
     
     const port = process.env['PORT'] || 8081;
+    logger.info(`Starting server on port ${port}...`);
+    
     app.listen(port, () => {
       logger.info(`Server running on port ${port}`);
+      logger.info('Health check available at /api/health');
     });
   } catch (error) {
+    logger.error('Error starting server:', error);
     logError(error as Error);
     process.exit(1);
   }
