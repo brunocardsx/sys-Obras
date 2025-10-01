@@ -733,9 +733,6 @@ const Dashboard: React.FC = () => {
                 <div key={invoice.id} className="recent-invoice-item">
                   <div className="invoice-header">
                     <span className="invoice-number">#{invoice.number || 'N/A'}</span>
-                    <span className={`invoice-status status-${invoice.status?.toLowerCase() || 'pendente'}`}>
-                      {invoice.status || 'Pendente'}
-                    </span>
                   </div>
                   <div className="invoice-details">
                     <span className="invoice-project">{invoice.projectName || 'N/A'}</span>

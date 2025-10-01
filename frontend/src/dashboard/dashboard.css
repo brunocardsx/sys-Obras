@@ -1026,34 +1026,6 @@
   font-size: 14px;
 }
 
-.invoice-status {
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.status-pago {
-  background: #10B981;
-  color: white;
-}
-
-.status-pendente {
-  background: #F59E0B;
-  color: white;
-}
-
-.status-vencido {
-  background: #EF4444;
-  color: white;
-}
-
-.status-cancelado {
-  background: #6B7280;
-  color: white;
-}
 
 .invoice-details {
   display: flex;
