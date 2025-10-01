@@ -46,6 +46,7 @@ const createDatabaseConnection = (): Sequelize => {
       database: config.database,
       username: config.username,
       hasPassword: !!config.password,
+      password: config.password ? '***hidden***' : 'not set',
     });
     
     return new Sequelize(config.database, config.username, config.password, {
@@ -59,6 +60,16 @@ const createDatabaseConnection = (): Sequelize => {
         },
       },
       logging: false,
+      pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+      },
+      define: {
+        timestamps: true,
+        underscored: false,
+      }
     });
   }
   
