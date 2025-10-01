@@ -29,7 +29,7 @@ export const STORAGE_KEYS = {
 
 // Chart Colors
 export const CHART_COLORS = {
-  PRIMARY: '#2DD4BF',
+  PRIMARY: '#2a9d47',
   SECONDARY: '#F5A623',
   TERTIARY: '#4A90E2',
   QUATERNARY: '#BD10E0',

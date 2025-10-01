@@ -106,7 +106,7 @@
 .dashboard-input:focus {
   outline: none;
   border-color: var(--db-accent-primary);
-  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.1);
+  box-shadow: 0 0 0 3px rgba(42, 157, 71, 0.1);
 }
 
 .dashboard-input::placeholder {
@@ -138,12 +138,12 @@
 .action-button.primary {
   background: linear-gradient(135deg, var(--db-accent-primary), var(--db-accent-primary-hover));
   color: white;
-  box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
+  box-shadow: 0 4px 15px rgba(42, 157, 71, 0.3);
 }
 
 .action-button.primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(45, 212, 191, 0.4);
+  box-shadow: 0 8px 25px rgba(42, 157, 71, 0.4);
 }
 
 .action-button.secondary {
@@ -235,7 +235,7 @@
 
 .invoice-list-item:hover {
   border-color: var(--db-accent-primary);
-  box-shadow: 0 2px 8px rgba(45, 212, 191, 0.1);
+  box-shadow: 0 2px 8px rgba(42, 157, 71, 0.1);
 }
 
 .invoice-list-header {

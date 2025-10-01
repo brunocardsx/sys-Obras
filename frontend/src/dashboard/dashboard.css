@@ -6,8 +6,8 @@
   --db-text-secondary: #A9B1C2;
   --db-text-label: #8A91A0;
   --db-text-highlight: #D1D9E6;
-  --db-accent-primary: #2DD4BF;
-  --db-accent-primary-hover: #26bba7;
+  --db-accent-primary: #2a9d47;
+  --db-accent-primary-hover: #1e7a35;
   --db-border-color: #3B3E47;
   --db-red-error: #F47174;
   --db-red-error-bg: rgba(244, 113, 116, 0.1);
@@ -137,22 +137,12 @@
   overflow: hidden;
 }
 
-.dashboard-nav-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--db-accent-primary), var(--db-accent-primary-hover));
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
+/* Barra verde removida para melhor harmonia visual */
 
 .dashboard-nav-card:hover {
   background: linear-gradient(135deg, var(--db-bg-card-hover) 0%, var(--db-bg-card) 100%);
   transform: translateY(-6px);
-  box-shadow: 0 12px 40px rgba(45, 212, 191, 0.15);
+  box-shadow: 0 12px 40px rgba(42, 157, 71, 0.15);
   border-color: var(--db-accent-primary);
 }
 
@@ -170,7 +160,7 @@
   justify-content: center;
   margin-bottom: 20px;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(45, 212, 191, 0.3);
+  box-shadow: 0 8px 25px rgba(42, 157, 71, 0.3);
   position: relative;
 }
 
@@ -187,7 +177,7 @@
 
 .dashboard-nav-card:hover .nav-card-icon {
   transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 12px 35px rgba(45, 212, 191, 0.4);
+  box-shadow: 0 12px 35px rgba(42, 157, 71, 0.4);
 }
 
 .dashboard-nav-card:hover .nav-card-icon::after {
@@ -227,15 +217,7 @@
   box-sizing: border-box;
 }
 
-.dashboard-chart-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--db-accent-primary), var(--db-accent-primary-hover));
-}
+/* Barra verde removida para melhor harmonia visual */
 
 /* Chart Section Header */
 .chart-section-header {
@@ -283,7 +265,7 @@
   outline: none;
   transition: all 0.3s ease;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%232DD4BF'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%232a9d47'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 1.25em;
@@ -292,7 +274,7 @@
 
 .modern-select:focus {
   border-color: var(--db-accent-primary);
-  box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.2);
+  box-shadow: 0 0 0 4px rgba(42, 157, 71, 0.2);
   transform: translateY(-1px);
 }
 
@@ -360,7 +342,7 @@
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%232DD4BF'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%232a9d47'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 1.25em;
@@ -368,7 +350,7 @@
 }
 .dashboard-select:focus {
   border-color: var(--db-accent-primary);
-  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.2);
+  box-shadow: 0 0 0 3px rgba(42, 157, 71, 0.2);
 }
 .chart-wrapper-dashboard {
   height: 600px;
@@ -500,6 +482,77 @@
   filter: drop-shadow(0 8px 32px rgba(0, 0, 0, 0.3));
 }
 
+/* Bar Chart - Gráfico de Barras Estilizado */
+.bar-chart-container {
+  width: 100%;
+  height: 470px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  padding: 20px 20px 20px 0;
+}
+
+.bar-chart-svg {
+  width: 100%;
+  height: 420px;
+  filter: drop-shadow(0 8px 32px rgba(0, 0, 0, 0.2));
+}
+
+.bar-element {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.bar-element:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2) url(#barShadow);
+}
+
+/* Tooltip melhorado para barras */
+.bar-chart-tooltip {
+  position: absolute;
+  background: linear-gradient(135deg, var(--db-bg-card) 0%, var(--db-bg-card-hover) 100%);
+  border: 2px solid var(--db-accent-primary);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  min-width: 180px;
+  text-align: center;
+}
+
+.bar-chart-tooltip.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bar-tooltip-month {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--db-text-primary);
+  margin-bottom: 6px;
+  text-transform: capitalize;
+}
+
+.bar-tooltip-amount {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--db-accent-primary);
+  margin-bottom: 4px;
+}
+
+.bar-tooltip-percentage {
+  font-size: 11px;
+  color: var(--db-text-secondary);
+  font-weight: 500;
+}
+
 .chart-segment-path {
   cursor: pointer;
   transition: all 0.3s ease;
@@ -595,20 +648,20 @@
 }
 
 .center-total {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   color: var(--db-accent-primary);
   text-align: center;
   line-height: 1.2;
 }
 
 .center-label {
-  font-size: 12px;
+  font-size: 10px;
   color: var(--db-text-secondary);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .chart-no-data {
@@ -888,15 +941,7 @@
   justify-content: center;
 }
 
-.balance-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--db-accent-primary), var(--db-accent-primary-hover));
-}
+/* Barra verde removida para melhor harmonia visual */
 
 .balance-header {
   display: flex;
@@ -950,7 +995,7 @@
 }
 
 .project-balance {
-  background: linear-gradient(135deg, rgba(45, 212, 191, 0.05) 0%, rgba(45, 212, 191, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(42, 157, 71, 0.05) 0%, rgba(42, 157, 71, 0.1) 100%);
   border-color: var(--db-accent-primary);
 }
 
@@ -986,7 +1031,7 @@
 }
 
 .widget-header .view-all-link:hover {
-  background: rgba(45, 212, 191, 0.1);
+  background: rgba(42, 157, 71, 0.1);
   color: var(--db-accent-primary-hover);
 }
 
@@ -1098,7 +1143,7 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: rgba(45, 212, 191, 0.1);
+  background: rgba(42, 157, 71, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1149,7 +1194,7 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: rgba(45, 212, 191, 0.1);
+  background: rgba(42, 157, 71, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1349,7 +1394,7 @@
   }
 }
 
-/* Mobile Layout - Saldo no topo */
+/* Mobile Layout - Gastos no topo */
 .mobile-balance-section {
   display: none;
 }
@@ -1366,14 +1411,14 @@
     font-size: 1.4rem;
   }
 
-  /* Mostrar saldo mobile no topo */
+  /* Mostrar gastos mobile no topo */
   .mobile-balance-section {
     display: block;
     order: 1;
     margin-bottom: 16px;
   }
 
-  /* Ocultar saldo da sidebar em mobile */
+  /* Ocultar gastos da sidebar em mobile */
   .dashboard-right-sidebar .balance-card {
     display: none;
   }
@@ -1589,17 +1634,27 @@
     height: 200px;
   }
   
+  /* Ajustar gráfico de barras para mobile */
+  .bar-chart-svg {
+    height: 320px;
+  }
+  
+  .bar-chart-container {
+    height: 380px;
+    padding: 15px;
+  }
+  
   .chart-center {
     width: 80px;
     height: 80px;
   }
   
   .center-total {
-    font-size: 14px;
+    font-size: 12px;
   }
   
   .center-label {
-    font-size: 10px;
+    font-size: 8px;
   }
 }
 
@@ -1740,7 +1795,7 @@ html {
 
 .metric-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 35px rgba(45, 212, 191, 0.2);
+  box-shadow: 0 12px 35px rgba(42, 157, 71, 0.2);
 }
 
 .widget-card:hover {

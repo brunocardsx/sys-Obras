@@ -8,8 +8,8 @@
   --db-text-secondary: #A9B1C2;
   --db-text-label: #8A91A0;
   --db-text-highlight: #D1D9E6;
-  --db-accent-primary: #2DD4BF;
-  --db-accent-primary-hover: #26bba7;
+  --db-accent-primary: #2a9d47;
+  --db-accent-primary-hover: #1e7a35;
   --db-border-color: #3B3E47;
   --db-red-error: #F47174;
   --db-red-error-bg: rgba(244, 113, 116, 0.1);
@@ -61,17 +61,7 @@
   overflow: hidden;
 }
 
-.create-project-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--db-accent-primary), var(--db-accent-primary-hover));
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
+/* Barra verde removida para melhor harmonia visual */
 
 .create-project-section:hover::before {
   transform: scaleX(1);
@@ -81,7 +71,7 @@
   background: var(--db-bg-card-hover);
   border-color: var(--db-accent-primary);
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(45, 212, 191, 0.15);
+  box-shadow: 0 12px 40px rgba(42, 157, 71, 0.15);
 }
 
 .create-project-section h3 {
@@ -142,7 +132,7 @@
 .form-group input:focus,
 .form-group textarea:focus {
   border-color: var(--db-accent-primary);
-  box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.2);
+  box-shadow: 0 0 0 4px rgba(42, 157, 71, 0.2);
   transform: translateY(-1px);
 }
 
@@ -167,7 +157,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
-  box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
+  box-shadow: 0 4px 15px rgba(42, 157, 71, 0.3);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -176,7 +166,7 @@
 
 .create-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(45, 212, 191, 0.4);
+  box-shadow: 0 8px 25px rgba(42, 157, 71, 0.4);
 }
 
 .create-button:disabled {
@@ -252,17 +242,7 @@
   overflow: hidden;
 }
 
-.project-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--db-accent-primary), var(--db-accent-primary-hover));
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
+/* Barra verde removida para melhor harmonia visual */
 
 .project-card:hover::before {
   transform: scaleX(1);
@@ -272,7 +252,7 @@
   background: var(--db-bg-card-hover);
   border-color: var(--db-accent-primary);
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(45, 212, 191, 0.15);
+  box-shadow: 0 12px 40px rgba(42, 157, 71, 0.15);
 }
 
 .project-header {

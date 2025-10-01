@@ -8,8 +8,8 @@
   --db-text-secondary: #A9B1C2;
   --db-text-label: #8A91A0;
   --db-text-highlight: #D1D9E6;
-  --db-accent-primary: #2DD4BF;
-  --db-accent-primary-hover: #26bba7;
+  --db-accent-primary: #2a9d47;
+  --db-accent-primary-hover: #1e7a35;
   --db-border-color: #3B3E47;
   --db-red-error: #F47174;
   --db-red-error-bg: rgba(244, 113, 116, 0.1);
@@ -61,7 +61,7 @@
   background: var(--db-bg-card-hover);
   border-color: var(--db-accent-primary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(45, 212, 191, 0.15);
+  box-shadow: 0 8px 25px rgba(42, 157, 71, 0.15);
 }
 
 .create-invoice-form {
@@ -98,17 +98,7 @@
   overflow: hidden;
 }
 
-.invoice-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--db-accent-primary), var(--db-accent-primary-hover));
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
+/* Barra verde removida para melhor harmonia visual */
 
 .invoice-section:hover::before {
   transform: scaleX(1);
@@ -118,7 +108,7 @@
   background: var(--db-bg-card-hover);
   border-color: var(--db-accent-primary);
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(45, 212, 191, 0.15);
+  box-shadow: 0 12px 40px rgba(42, 157, 71, 0.15);
 }
 
 .invoice-section h2 {
@@ -169,10 +159,10 @@
   color: var(--db-text-secondary);
   font-weight: 400;
   margin-left: auto;
-  background: rgba(45, 212, 191, 0.1);
+  background: rgba(42, 157, 71, 0.1);
   padding: 2px 8px;
   border-radius: 6px;
-  border: 1px solid rgba(45, 212, 191, 0.2);
+  border: 1px solid rgba(42, 157, 71, 0.2);
 }
 
 .form-group input,
@@ -195,7 +185,7 @@
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--db-accent-primary);
-  box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.2);
+  box-shadow: 0 0 0 4px rgba(42, 157, 71, 0.2);
   transform: translateY(-1px);
 }
 
@@ -213,7 +203,7 @@
 
 .form-group select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%232DD4BF'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%232a9d47'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 1.25em;
@@ -319,7 +309,7 @@
   align-items: center;
   gap: 6px;
   font-size: 0.85rem;
-  box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
+  box-shadow: 0 4px 15px rgba(42, 157, 71, 0.3);
   white-space: nowrap;
   width: auto;
   max-width: 140px;
@@ -327,7 +317,7 @@
 
 .add-item-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(45, 212, 191, 0.4);
+  box-shadow: 0 8px 25px rgba(42, 157, 71, 0.4);
 }
 
 .add-item-button:disabled {
@@ -483,7 +473,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.85rem;
-  box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
+  box-shadow: 0 4px 15px rgba(42, 157, 71, 0.3);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -491,7 +481,7 @@
 
 .save-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(45, 212, 191, 0.4);
+  box-shadow: 0 8px 25px rgba(42, 157, 71, 0.4);
 }
 
 .save-button:disabled {
@@ -628,12 +618,12 @@
   cursor: pointer;
   transition: all 0.3s ease;
   min-width: 120px;
-  box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
+  box-shadow: 0 4px 15px rgba(42, 157, 71, 0.3);
 }
 
 .modal-footer .save-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(45, 212, 191, 0.4);
+  box-shadow: 0 8px 25px rgba(42, 157, 71, 0.4);
 }
 
 .modal-footer .save-button:disabled {

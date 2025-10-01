@@ -299,6 +299,79 @@ const Dashboard: React.FC = () => {
     setupTooltips();
   }, [chartData]);
 
+  // Adicionar event listeners para tooltips das barras
+  useEffect(() => {
+    const setupBarTooltips = () => {
+      const tooltip = document.getElementById('bar-chart-tooltip');
+      const bars = document.querySelectorAll('.bar-element');
+      const chartContainer = document.querySelector('.bar-chart-container');
+      
+      if (!tooltip || bars.length === 0 || !chartContainer) {
+        // Se não encontrou os elementos, tenta novamente em 100ms
+        setTimeout(setupBarTooltips, 100);
+        return;
+      }
+
+      const showTooltip = (event: MouseEvent) => {
+        const target = event.target as SVGRectElement;
+        const month = target.getAttribute('data-month');
+        const amount = target.getAttribute('data-amount');
+        const percentage = target.getAttribute('data-percentage');
+        
+        if (month && amount && percentage) {
+          const tooltipMonth = tooltip.querySelector('.bar-tooltip-month');
+          const tooltipAmount = tooltip.querySelector('.bar-tooltip-amount');
+          const tooltipPercentage = tooltip.querySelector('.bar-tooltip-percentage');
+          
+          if (tooltipMonth) tooltipMonth.textContent = month;
+          if (tooltipAmount) tooltipAmount.textContent = amount;
+          if (tooltipPercentage) tooltipPercentage.textContent = `${percentage}% do total`;
+          
+          tooltip.classList.add('show');
+          
+          // Usar coordenadas relativas ao container
+          const rect = chartContainer.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+          
+          tooltip.style.left = `${x - 90}px`; // Centralizar o tooltip (180px/2)
+          tooltip.style.top = `${y - 100}px`; // Posicionar acima do cursor
+        }
+      };
+
+      const hideTooltip = () => {
+        tooltip.classList.remove('show');
+      };
+
+      const updateTooltipPosition = (event: MouseEvent) => {
+        if (tooltip.classList.contains('show')) {
+          const rect = chartContainer.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+          
+          tooltip.style.left = `${x - 90}px`;
+          tooltip.style.top = `${y - 100}px`;
+        }
+      };
+
+      bars.forEach(bar => {
+        bar.addEventListener('mouseenter', showTooltip);
+        bar.addEventListener('mouseleave', hideTooltip);
+        bar.addEventListener('mousemove', updateTooltipPosition);
+      });
+
+      return () => {
+        bars.forEach(bar => {
+          bar.removeEventListener('mouseenter', showTooltip);
+          bar.removeEventListener('mouseleave', hideTooltip);
+          bar.removeEventListener('mousemove', updateTooltipPosition);
+        });
+      };
+    };
+
+    setupBarTooltips();
+  }, [chartData]);
+
   // Cores modernas e vibrantes para o gráfico
   const COLORS = [
     '#00D4AA', // Teal vibrante
@@ -388,14 +461,14 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard-content-wrapper">
       <header className="dashboard-header">
-        <h1 className="dashboard-title">Sistema de Gestão</h1>
+        <h1 className="dashboard-title">GN EMPREENDIMENTOS</h1>
       </header>
 
-      {/* Mobile Layout - Saldo no topo */}
+      {/* Mobile Layout - Gastos no topo */}
       <div className="mobile-balance-section">
         <div className="widget-card balance-card">
           <div className="balance-header">
-            <h3>Saldo</h3>
+            <h3>Gastos</h3>
             <div className="balance-icon">
               <i className="fas fa-wallet"></i>
             </div>
@@ -557,117 +630,126 @@ const Dashboard: React.FC = () => {
                 
                 <div className="chart-container">
                   {chartData.length > 0 ? (
-                    <div className="html-chart">
-                      <svg className="chart-svg" width="300" height="300" viewBox="0 0 300 300">
+                    <div className="bar-chart-container">
+                      <svg className="bar-chart-svg" width="100%" height="420" viewBox="0 0 600 420">
                         <defs>
-                          <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-                            <feDropShadow dx="2" dy="2" stdDeviation="3" floodColor="rgba(0,0,0,0.3)"/>
+                          <linearGradient id="gnGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="#2a9d47" stopOpacity="0.9"/>
+                            <stop offset="100%" stopColor="#1e7a35" stopOpacity="0.7"/>
+                          </linearGradient>
+                          <filter id="barShadow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="rgba(42, 157, 71, 0.3)"/>
                           </filter>
                         </defs>
                         
+                        {/* Grid lines */}
+                        {[0, 25, 50, 75, 100].map((value, index) => (
+                          <g key={index}>
+                            <line
+                              x1="30"
+                              y1={340 - (value * 300 / 100)}
+                              x2="500"
+                              y2={340 - (value * 300 / 100)}
+                              stroke="rgba(169, 177, 194, 0.15)"
+                              strokeWidth="1"
+                              strokeDasharray="3,3"
+                            />
+                            <text
+                              x="20"
+                              y={345 - (value * 300 / 100)}
+                              textAnchor="end"
+                              dominantBaseline="middle"
+                              fill="var(--db-text-secondary)"
+                              fontSize="10"
+                              fontWeight="500"
+                            >
+                              {value}%
+                            </text>
+                          </g>
+                        ))}
+                        
+                        {/* Bars */}
                         {chartData.map((entry, index) => {
-                          const percentage = ((entry.value / totalGastos) * 100).toFixed(0);
-                          const startAngle = chartData.slice(0, index).reduce((acc, item) => acc + (item.value / totalGastos) * 360, 0);
-                          const endAngle = startAngle + (entry.value / totalGastos) * 360;
-                          const midAngle = (startAngle + endAngle) / 2;
+                          // Progressão lógica com escala ajustada
+                          const values = chartData.map(d => d.value);
+                          const maxValue = Math.max(...values);
+                          const minValue = Math.min(...values);
                           
-                          // Calcular coordenadas do arco
-                          const centerX = 150;
-                          const centerY = 150;
-                          const radius = 120;
-                          const innerRadius = 60;
+                          // Usar uma escala que garante que todas as barras sejam visíveis
+                          // A menor barra terá pelo menos 20% da altura máxima
+                          const minHeightPercentage = 20;
+                          const adjustedValue = minValue + (entry.value - minValue) * 0.8;
+                          const normalizedValue = ((adjustedValue - minValue) / (maxValue - minValue)) * (100 - minHeightPercentage) + minHeightPercentage;
                           
-                          // Se há apenas um segmento (círculo completo), usar coordenadas especiais
-                          let pathData;
-                          if (chartData.length === 1) {
-                            // Para um círculo completo, criar um anel usando dois círculos
-                            pathData = [
-                              `M ${centerX + radius} ${centerY}`,
-                              `A ${radius} ${radius} 0 1 1 ${centerX - radius} ${centerY}`,
-                              `A ${radius} ${radius} 0 1 1 ${centerX + radius} ${centerY}`,
-                              `M ${centerX + innerRadius} ${centerY}`,
-                              `A ${innerRadius} ${innerRadius} 0 1 0 ${centerX - innerRadius} ${centerY}`,
-                              `A ${innerRadius} ${innerRadius} 0 1 0 ${centerX + innerRadius} ${centerY}`,
-                              'Z'
-                            ].join(' ');
-                          } else {
-                            const startAngleRad = (startAngle - 90) * Math.PI / 180;
-                            const endAngleRad = (endAngle - 90) * Math.PI / 180;
-                            
-                            const x1 = centerX + Math.cos(startAngleRad) * radius;
-                            const y1 = centerY + Math.sin(startAngleRad) * radius;
-                            const x2 = centerX + Math.cos(endAngleRad) * radius;
-                            const y2 = centerY + Math.sin(endAngleRad) * radius;
-                            
-                            const x3 = centerX + Math.cos(endAngleRad) * innerRadius;
-                            const y3 = centerY + Math.sin(endAngleRad) * innerRadius;
-                            const x4 = centerX + Math.cos(startAngleRad) * innerRadius;
-                            const y4 = centerY + Math.sin(startAngleRad) * innerRadius;
-                            
-                            const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-                            
-                            pathData = [
-                              `M ${x1} ${y1}`,
-                              `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`,
-                              `L ${x3} ${y3}`,
-                              `A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${x4} ${y4}`,
-                              'Z'
-                            ].join(' ');
-                          }
-                          
-                          // Calcular posição do label
-                          const labelRadius = 90;
-                          const labelX = centerX + Math.cos((midAngle - 90) * Math.PI / 180) * labelRadius;
-                          const labelY = centerY + Math.sin((midAngle - 90) * Math.PI / 180) * labelRadius;
+                          const percentage = ((entry.value / totalGastos) * 100); // Percentual do total
+                          const maxHeight = 300; // Altura máxima aumentada
+                          const barHeight = (normalizedValue / 100) * maxHeight;
+                          const barWidth = 40; // Largura um pouco maior
+                          const spacing = 12; // Espaçamento entre barras
+                          const barX = 50 + (index * (barWidth + spacing));
+                          const barY = 340 - barHeight;
                           
                           return (
                             <g key={entry.name}>
-                              <path
-                                d={pathData}
-                                fill={COLORS[index % COLORS.length]}
-                                stroke="#ffffff"
-                                strokeWidth="2"
-                                filter="url(#shadow)"
-                                className="chart-segment-path"
+                              {/* Main bar */}
+                              <rect
+                                x={barX}
+                                y={barY}
+                                width={barWidth}
+                                height={barHeight}
+                                fill="url(#gnGradient)"
+                                rx="6"
+                                ry="6"
+                                filter="url(#barShadow)"
+                                className="bar-element"
                                 data-month={entry.name}
                                 data-amount={entry.formattedValue}
-                                data-percentage={percentage}
+                                data-percentage={percentage.toFixed(1)}
                               />
+                              
+                              {/* Month label */}
                               <text
-                                x={labelX}
-                                y={labelY}
+                                x={barX + (barWidth / 2)}
+                                y="370"
                                 textAnchor="middle"
                                 dominantBaseline="middle"
-                                className="segment-label"
-                                fill="white"
-                                fontSize="12"
-                                fontWeight="600"
+                                fill="var(--db-text-secondary)"
+                                fontSize="9"
+                                fontWeight="500"
                               >
-                                {percentage}%
+                                {entry.name.split(' ')[0]}
                               </text>
+                              
+                              {/* Year label for first occurrence */}
+                              {index === 0 && (
+                                <text
+                                  x={barX + (barWidth / 2)}
+                                  y="385"
+                                  textAnchor="middle"
+                                  dominantBaseline="middle"
+                                  fill="var(--db-text-label)"
+                                  fontSize="8"
+                                  fontWeight="400"
+                                >
+                                  {entry.name.split(' ')[2]}
+                                </text>
+                              )}
                             </g>
                           );
                         })}
                       </svg>
                       
-                      <div className="chart-center">
-                        <div className="center-total">{formatCurrency(totalGastos)}</div>
-                        <div className="center-label">Total</div>
-                      </div>
-                      
-                      {/* Tooltip */}
-                      <div className="chart-tooltip" id="chart-tooltip">
-                        <div className="tooltip-content">
-                          <div className="tooltip-month"></div>
-                          <div className="tooltip-amount"></div>
-                          <div className="tooltip-percentage"></div>
-                        </div>
+                      {/* Tooltip para barras */}
+                      <div className="bar-chart-tooltip" id="bar-chart-tooltip">
+                        <div className="bar-tooltip-month"></div>
+                        <div className="bar-tooltip-amount"></div>
+                        <div className="bar-tooltip-percentage"></div>
                       </div>
                     </div>
                   ) : (
                     <div className="chart-no-data">
                       <div className="no-data-icon">
-                        <i className="fas fa-chart-pie"></i>
+                        <i className="fas fa-chart-bar"></i>
                       </div>
                       <p className="no-data-text">Nenhum dado para exibir</p>
                     </div>
@@ -734,10 +816,10 @@ const Dashboard: React.FC = () => {
       </main>
 
       <aside className="dashboard-right-sidebar">
-        {/* Saldo */}
+        {/* Gastos */}
         <div className="widget-card balance-card">
           <div className="balance-header">
-            <h3>Saldo</h3>
+            <h3>Gastos</h3>
             <div className="balance-icon">
               <i className="fas fa-wallet"></i>
             </div>
