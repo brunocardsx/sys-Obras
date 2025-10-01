@@ -91,8 +91,17 @@ const createDatabaseConnection = (): Sequelize => {
 
 export const sequelize = createDatabaseConnection();
 
+// Log the sequelize instance for debugging
+logger.info('Sequelize instance created:', {
+  dialect: sequelize.getDialect(),
+  database: sequelize.getDatabaseName(),
+  host: sequelize.options.host,
+  port: sequelize.options.port,
+});
+
 export const initializeDatabase = async (): Promise<void> => {
   try {
+    logger.info('Attempting to authenticate with database...');
     await sequelize.authenticate();
     logger.info('Database connection established successfully');
     
