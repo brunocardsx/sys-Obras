@@ -12,7 +12,21 @@ import { setupRoutes } from './routes';
 const createApp = (): express.Application => {
   const app = express();
   
-  app.use(helmet());
+  app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'"],
+        imgSrc: ["'self'", "data:", "https:"],
+      },
+    },
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+      preload: true
+    }
+  }));
   
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes

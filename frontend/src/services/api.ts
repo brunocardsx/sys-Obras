@@ -4,7 +4,7 @@ import { STORAGE_KEYS } from '../types/constants';
 
 // Create Axios instance with base URL
 const api: AxiosInstance = axios.create({
-  baseURL: process.env['REACT_APP_API_URL'] || 'http://localhost:8081',
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8081',
 });
 
 // Request interceptor to add authentication token

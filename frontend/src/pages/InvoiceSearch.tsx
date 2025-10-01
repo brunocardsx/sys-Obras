@@ -28,13 +28,9 @@ const InvoiceSearch: React.FC = () => {
   const [invoiceToDelete, setInvoiceToDelete] = useState<InvoiceType | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [expandedInvoices, setExpandedInvoices] = useState<Set<string>>(new Set());
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     fetchInvoices();
-    fetchProjects();
-    fetchProducts();
   }, []);
 
   const fetchInvoices = async (searchFilters?: InvoiceFilters): Promise<void> => {
@@ -93,27 +89,6 @@ const InvoiceSearch: React.FC = () => {
     fetchInvoices();
   };
 
-  const fetchProjects = async (): Promise<void> => {
-    try {
-      const { data } = await api.get('/api/projects');
-      if (data.status) {
-        setProjects(data.data || []);
-      }
-    } catch (error) {
-      console.error('Erro ao buscar projetos:', error);
-    }
-  };
-
-  const fetchProducts = async (): Promise<void> => {
-    try {
-      const { data } = await api.get('/api/products');
-      if (data.status) {
-        setProducts(data.data || []);
-      }
-    } catch (error) {
-      console.error('Erro ao buscar produtos:', error);
-    }
-  };
 
   const handleViewDetails = (invoice: InvoiceType): void => {
     setSelectedInvoice(invoice);
@@ -152,30 +127,6 @@ const InvoiceSearch: React.FC = () => {
     }
   };
 
-  const handleUpdateInvoice = async (updatedInvoice: Partial<InvoiceType>): Promise<void> => {
-    if (!selectedInvoice) return;
-
-    try {
-      setLoading(true);
-      const { data } = await api.put(`/api/invoices/${selectedInvoice.id}`, updatedInvoice);
-      
-      if (data.status) {
-        await fetchInvoices(filters);
-        setShowDetailsModal(false);
-        setSelectedInvoice(null);
-        return;
-      }
-      
-      setError(data.message || 'Erro ao atualizar nota fiscal');
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error && 'response' in error 
-        ? (error as { response?: { data?: { message?: string } } }).response?.data?.message
-        : 'Erro ao atualizar nota fiscal';
-      setError(errorMessage || 'Erro ao atualizar nota fiscal');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const toggleInvoiceExpansion = (invoiceId: string): void => {
     const newExpanded = new Set(expandedInvoices);

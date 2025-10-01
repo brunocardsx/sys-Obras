@@ -1,25 +1,42 @@
 // src/App.tsx
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 
-// Import pages
-import { Login } from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import { Product } from './pages/Product';
-import { SelectAction } from './pages/SelectAction';
-import { Sale } from "./pages/Sale";
-import { Receive } from "./pages/Receive";
-import { Stock } from './pages/Stock';
-import { Invoices } from './pages/Invoices';
-import { InvoiceSearch } from './pages/InvoiceSearch';
-import { CreateInvoice } from './pages/CreateInvoice';
-import { Projects } from "./pages/Projects";
-import { Error404 } from "./pages/Error404";
-
-// Import layout and auth components
+// Import layout and auth components (not lazy loaded)
 import { Menu } from './components/Menu';
 import { Header } from './components/Header';
 import { RequireAuth } from "./services/PrivateRoutes";
+import { Login } from './pages/Login';
+
+// Lazy load pages for better performance
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Product = lazy(() => import('./pages/Product').then(module => ({ default: module.Product })));
+const SelectAction = lazy(() => import('./pages/SelectAction').then(module => ({ default: module.SelectAction })));
+const Sale = lazy(() => import('./pages/Sale').then(module => ({ default: module.Sale })));
+const Receive = lazy(() => import('./pages/Receive').then(module => ({ default: module.Receive })));
+const Stock = lazy(() => import('./pages/Stock').then(module => ({ default: module.Stock })));
+const Invoices = lazy(() => import('./pages/Invoices').then(module => ({ default: module.Invoices })));
+const InvoiceSearch = lazy(() => import('./pages/InvoiceSearch').then(module => ({ default: module.InvoiceSearch })));
+const CreateInvoice = lazy(() => import('./pages/CreateInvoice').then(module => ({ default: module.CreateInvoice })));
+const Projects = lazy(() => import('./pages/Projects').then(module => ({ default: module.Projects })));
+const Error404 = lazy(() => import('./pages/Error404').then(module => ({ default: module.Error404 })));
+
+// Loading component
+const LoadingSpinner = () => (
+  <div style={{ 
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    height: '50vh',
+    fontSize: '18px',
+    color: '#666'
+  }}>
+    <div>
+      <i className="fas fa-spinner fa-spin" style={{ marginRight: '10px' }}></i>
+      Carregando...
+    </div>
+  </div>
+);
 
 // ==============================================================================
 // MainLayout controls menu state and renders Header
@@ -54,19 +71,63 @@ const App: React.FC = () => {
 
         {/* Protected routes that use MainLayout with menu */}
         <Route element={<RequireAuth><MainLayout /></RequireAuth>}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/products" element={<Product />} />
-          <Route path="/select-action" element={<SelectAction />} />
-          <Route path="/select-action/venda" element={<Sale />} />
-          <Route path="/select-action/receber" element={<Receive />} />
-          <Route path="/invoices" element={<Invoices />} />
-          <Route path="/invoices/search" element={<InvoiceSearch />} />
-          <Route path="/invoices/create" element={<CreateInvoice />} />
-          <Route path="/stock" element={<Stock />} />
+          <Route path="/dashboard" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <Dashboard />
+            </Suspense>
+          } />
+          <Route path="/projects" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <Projects />
+            </Suspense>
+          } />
+          <Route path="/products" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <Product />
+            </Suspense>
+          } />
+          <Route path="/select-action" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <SelectAction />
+            </Suspense>
+          } />
+          <Route path="/select-action/venda" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <Sale />
+            </Suspense>
+          } />
+          <Route path="/select-action/receber" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <Receive />
+            </Suspense>
+          } />
+          <Route path="/invoices" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <Invoices />
+            </Suspense>
+          } />
+          <Route path="/invoices/search" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <InvoiceSearch />
+            </Suspense>
+          } />
+          <Route path="/invoices/create" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CreateInvoice />
+            </Suspense>
+          } />
+          <Route path="/stock" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <Stock />
+            </Suspense>
+          } />
 
           {/* Catch-all route for pages not found within logged area */}
-          <Route path="*" element={<Error404 />} />
+          <Route path="*" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <Error404 />
+            </Suspense>
+          } />
         </Route>
       </Routes>
     </BrowserRouter>

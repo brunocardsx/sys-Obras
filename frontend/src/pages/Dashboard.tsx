@@ -4,7 +4,6 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../services/api';
 import '../dashboard/dashboard.css';
-import { CHART_COLORS } from '../types/constants';
 import { formatCurrency } from '../utils/format';
 
 interface ChartData {
@@ -320,7 +319,7 @@ const Dashboard: React.FC = () => {
   const CustomTooltip = ({ active, payload }: TooltipProps) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
-      const percentage = ((data.value / totalGastos) * 100).toFixed(1);
+      const percentage = ((data.total_compras / totalGastos) * 100).toFixed(1);
       
       return (
         <div className="chart-tooltip">
@@ -329,7 +328,7 @@ const Dashboard: React.FC = () => {
             <span className="tooltip-label">{payload[0].name}</span>
           </div>
           <div className="tooltip-content">
-            <p className="tooltip-value">{data.formattedValue}</p>
+            <p className="tooltip-value">{formatCurrency(data.total_compras)}</p>
             <p className="tooltip-percentage">{percentage}% do total</p>
           </div>
         </div>
