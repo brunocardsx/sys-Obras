@@ -28,6 +28,13 @@ const CreateInvoice: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [showProductDropdown, setShowProductDropdown] = useState<boolean>(false);
+  const [showNewProductModal, setShowNewProductModal] = useState<boolean>(false);
+  const [newProductName, setNewProductName] = useState<string>('');
+  const [isCreatingProduct, setIsCreatingProduct] = useState<boolean>(false);
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState<boolean>(false);
+  const [productToDelete, setProductToDelete] = useState<Product | null>(null);
+  const [isDeletingProduct, setIsDeletingProduct] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>('');
   
   const [formData, setFormData] = useState<InvoiceFormData>({
     number: '',
@@ -97,9 +104,65 @@ const CreateInvoice: React.FC = () => {
     }
   };
 
+  const createNewProduct = async (): Promise<void> => {
+    if (!newProductName.trim()) {
+      setError('Nome do produto é obrigatório');
+      return;
+    }
+
+    setIsCreatingProduct(true);
+    setError('');
+
+    try {
+      const productCode = `PROD-${Date.now()}`;
+      const { data } = await api.post('/api/products', {
+        code: productCode,
+        name: newProductName.trim(),
+        costPrice: 0,
+        sellingPrice: 0
+      });
+
+      if (data.status) {
+        // Atualizar lista de produtos
+        await fetchProducts();
+        
+        // Selecionar o novo produto automaticamente
+        const newProduct = data.data;
+        setCurrentItem({
+          productId: newProduct.id,
+          productName: newProduct.name,
+          quantity: 1,
+          unitPrice: 0,
+          totalPrice: 0
+        });
+
+        // Fechar modal e limpar
+        setShowNewProductModal(false);
+        setNewProductName('');
+        setShowProductDropdown(false);
+      } else {
+        setError(data.message || 'Erro ao criar produto');
+      }
+    } catch (error: any) {
+      setError(error.response?.data?.message || 'Erro ao criar produto');
+    } finally {
+      setIsCreatingProduct(false);
+    }
+  };
+
   const handleProductSearch = (searchTerm: string): void => {
+    setSearchTerm(searchTerm);
+    
     if (!searchTerm.trim()) {
       setFilteredProducts(products);
+      setShowProductDropdown(false);
+      setCurrentItem({
+        productId: '',
+        productName: '',
+        quantity: 1,
+        unitPrice: 0,
+        totalPrice: 0
+      });
       return;
     }
 
@@ -109,6 +172,68 @@ const CreateInvoice: React.FC = () => {
     );
     setFilteredProducts(filtered);
     setShowProductDropdown(true);
+    
+    // Se não encontrou produto exato, permite digitação livre
+    const exactMatch = products.find(product => 
+      product.name.toLowerCase() === searchTerm.toLowerCase()
+    );
+    
+    if (!exactMatch) {
+      setCurrentItem({
+        productId: '',
+        productName: searchTerm,
+        quantity: 1,
+        unitPrice: 0,
+        totalPrice: 0
+      });
+    }
+  };
+
+  const handleProductInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.ctrlKey && e.key === 'Enter') {
+      e.preventDefault();
+      setShowNewProductModal(true);
+    }
+  };
+
+  const handleDeleteProduct = (product: Product): void => {
+    setProductToDelete(product);
+    setShowDeleteConfirmModal(true);
+  };
+
+  const confirmDeleteProduct = async (): Promise<void> => {
+    if (!productToDelete) return;
+
+    setIsDeletingProduct(true);
+    setError('');
+
+    try {
+      const { data } = await api.delete(`/api/products/${productToDelete.id}`);
+      
+      if (data.status) {
+        // Atualizar lista de produtos
+        await fetchProducts();
+        
+        // Limpar seleção se o produto deletado estava selecionado
+        if (currentItem.productId === productToDelete.id) {
+          setCurrentItem({
+            productId: '',
+            productName: '',
+            quantity: 1,
+            unitPrice: 0,
+            totalPrice: 0
+          });
+        }
+      } else {
+        setError(data.message || 'Erro ao deletar produto');
+      }
+    } catch (error: any) {
+      setError(error.response?.data?.message || 'Erro ao deletar produto');
+    } finally {
+      setIsDeletingProduct(false);
+      setShowDeleteConfirmModal(false);
+      setProductToDelete(null);
+    }
   };
 
   const selectProduct = (product: Product): void => {
@@ -267,7 +392,10 @@ const CreateInvoice: React.FC = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="productSearch">Selecione ou Crie um Produto</label>
+              <label htmlFor="productSearch">
+                Selecione ou Crie um Produto
+                <span className="shortcut-hint">(CTRL + ENTER para criar novo)</span>
+              </label>
               <div className="product-search-container">
                 <input
                   type="text"
@@ -275,7 +403,8 @@ const CreateInvoice: React.FC = () => {
                   value={currentItem.productName || ''}
                   onChange={(e) => handleProductSearch(e.target.value)}
                   onFocus={() => setShowProductDropdown(true)}
-                  placeholder="Pesquise ou digite para criar..."
+                  onKeyDown={handleProductInputKeyDown}
+                  placeholder="Pesquise ou digite para criar... (CTRL + ENTER para novo produto)"
                 />
                 {showProductDropdown && filteredProducts.length > 0 && (
                   <div className="product-dropdown">
@@ -283,9 +412,24 @@ const CreateInvoice: React.FC = () => {
                       <div
                         key={product.id}
                         className="product-option"
-                        onClick={() => selectProduct(product)}
                       >
-                        {product.name}
+                        <span 
+                          className="product-name"
+                          onClick={() => selectProduct(product)}
+                        >
+                          {product.name}
+                        </span>
+                        <button
+                          type="button"
+                          className="delete-product-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteProduct(product);
+                          }}
+                          title="Excluir produto"
+                        >
+                          ×
+                        </button>
                       </div>
                     ))}
                   </div>
@@ -420,6 +564,105 @@ const CreateInvoice: React.FC = () => {
           </button>
         </div>
       </form>
+
+      {/* Modal para criar novo produto */}
+      {showNewProductModal && (
+        <div className="modal-overlay" onClick={() => setShowNewProductModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Criar Novo Produto</h3>
+              <button 
+                type="button" 
+                className="modal-close"
+                onClick={() => setShowNewProductModal(false)}
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="modal-body">
+              <div className="form-group">
+                <label htmlFor="newProductName">Nome do Produto</label>
+                <input
+                  type="text"
+                  id="newProductName"
+                  value={newProductName}
+                  onChange={(e) => setNewProductName(e.target.value)}
+                  placeholder="Digite o nome do produto"
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      createNewProduct();
+                    }
+                    if (e.key === 'Escape') {
+                      setShowNewProductModal(false);
+                    }
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="cancel-button"
+                onClick={() => setShowNewProductModal(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="save-button"
+                onClick={createNewProduct}
+                disabled={isCreatingProduct || !newProductName.trim()}
+              >
+                {isCreatingProduct ? 'Criando...' : 'Criar Produto'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de confirmação para deletar produto */}
+      {showDeleteConfirmModal && productToDelete && (
+        <div className="modal-overlay" onClick={() => setShowDeleteConfirmModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Confirmar Exclusão</h3>
+              <button 
+                type="button" 
+                className="modal-close"
+                onClick={() => setShowDeleteConfirmModal(false)}
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="modal-body">
+              <p>Tem certeza que deseja excluir o produto <strong>"{productToDelete.name}"</strong>?</p>
+              <p className="warning-text">Esta ação não pode ser desfeita.</p>
+            </div>
+
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="cancel-button"
+                onClick={() => setShowDeleteConfirmModal(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="delete-button"
+                onClick={confirmDeleteProduct}
+                disabled={isDeletingProduct}
+              >
+                {isDeletingProduct ? 'Excluindo...' : 'Excluir Produto'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
