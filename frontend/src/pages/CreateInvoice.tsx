@@ -34,7 +34,6 @@ const CreateInvoice: React.FC = () => {
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState<boolean>(false);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [isDeletingProduct, setIsDeletingProduct] = useState<boolean>(false);
-  const [searchTerm] = useState<string>('');
   
   const [formData, setFormData] = useState<InvoiceFormData>({
     number: '',
