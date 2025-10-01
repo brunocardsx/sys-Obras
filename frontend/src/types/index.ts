@@ -56,8 +56,12 @@ export interface InvoiceItem {
   readonly id: string;
   readonly invoiceId: string;
   readonly productId: string;
+  readonly productName: string;
+  readonly productCode?: string;
+  readonly description?: string;
   readonly quantity: number;
   readonly unitPrice: number;
+  readonly totalPrice: number;
   readonly product?: Product | undefined;
   readonly createdAt: Date;
   readonly updatedAt: Date;
