@@ -493,7 +493,9 @@ const CreateInvoice: React.FC = () => {
                   className="readonly-input"
                 />
               </div>
+            </div>
 
+            <div className="add-item-container">
               <button
                 type="button"
                 onClick={addItemToInvoice}
