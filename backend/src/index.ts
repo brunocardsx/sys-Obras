@@ -37,7 +37,7 @@ const createApp = (): express.Application => {
   });
   app.use(limiter);
   
-  const frontendUrl = process.env['FRONTEND_URL'] || 'http://localhost:3001';
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3001';
   app.use(cors({
     origin: frontendUrl,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -49,7 +49,12 @@ const createApp = (): express.Application => {
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
   
   app.get('/api/health', (_req, res) => {
-    sendSuccess(res, { status: 'UP' }, 'Service is healthy');
+    sendSuccess(res, { 
+      status: 'UP', 
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      environment: process.env.NODE_ENV || 'development'
+    }, 'Service is healthy');
   });
   
   setupRoutes(app);

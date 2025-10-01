@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: sistest-backend
+    env: node
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: 5432
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_USER
+        value: admin
+      - key: ADMIN_PASS
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+
+databases:
+  - name: sistest-db
+    databaseName: sistest
+    user: sistest_user
+    plan: free

@@ -57,15 +57,30 @@ senha: 123
 
 ## 🧩 Como Executar <a id="como-executar"></a>
 
-Para executar o projeto na sua máquina, basta seguir a sequencia de passos:
-
+### Desenvolvimento Local:
+```bash
+# Instalar dependências e executar
+npm install
+npm run dev
 ```
-# Execute o servidor e o cliente
 
-$ cd Frontend && yarn install && yarn start
+### Deploy em Produção:
+- **Recomendado**: [Railway + Vercel](./railway-deploy.md) (melhor opção)
+- **Alternativa**: [Render + Vercel](./deploy.md)
 
-$ cd Backend && yarn install && yarn start
+### Comandos Disponíveis:
+```bash
+# Desenvolvimento (backend + frontend)
+npm run dev
 
+# Apenas backend
+npm run backend:dev
+
+# Apenas frontend  
+npm run frontend:dev
+
+# Produção
+npm run start
 ```
 
 ------------------------------------
