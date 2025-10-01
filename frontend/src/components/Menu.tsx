@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../menu/menu.css';
+import { Logo } from './Logo';
 
 interface MenuItem {
   readonly path: string;
@@ -59,7 +60,7 @@ const Menu: React.FC<MenuProps> = ({ isOpen, closeMenu }) => {
       <aside className={`menu-container ${isOpen ? 'open' : ''}`}>
         <div className="logo-container">
           <Link to="/dashboard" onClick={closeMenu}>
-            <img src={require("../images/logo.png").default} alt="Logo do Sistema" />
+            <Logo size="large" className="menu-logo" />
           </Link>
         </div>
 

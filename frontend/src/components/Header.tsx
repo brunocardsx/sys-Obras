@@ -1,6 +1,7 @@
 // src/components/Header.tsx
 import React from 'react';
 import './header.css';
+import { Logo } from './Logo';
 
 interface HeaderProps {
   readonly toggleMenu: () => void;
@@ -17,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({ toggleMenu }) => {
       >
         <i className="fas fa-bars" />
       </button>
-      <h1 className="header-title">Sistema de Gestão</h1>
+      <Logo size="medium" className="header-logo" />
     </header>
   );
 };
