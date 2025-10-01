@@ -1,110 +1,117 @@
-<a href="https://sistema-gestao-frontend-xi.vercel.app/login">
-    <p align="center">
-        <img src="logo.png" width=45%>
-    </p>
-</a>
-    
-------------------------------------
-## Índice
+# 🏗️ Sistema de Gestão de Obras
 
-* [Preview](#preview)
-* [Sobre](#sobre)
-* [Funcionalidades](#funcionalidades)
-* [Layout](#layout)
-* [Como Executar](#como-executar)
-* [Tecnologias](#tecnologias)
-* [Autor](#autor)
-* [Licença](#licenca)
+Sistema completo de gestão de obras com frontend React e backend Node.js.
 
-------------------------------------
+## 🚀 Tecnologias
 
-## 💻 Sobre <a id="sobre"></a>
-Sistema de gestão para monitar vendas e compras, gastos e ganhos de lojas/empresas/uso pessoal.
-<br>
+- **Frontend**: React 18, TypeScript, CSS3
+- **Backend**: Node.js, Express, TypeScript, Sequelize
+- **Banco**: PostgreSQL
+- **Autenticação**: JWT
 
-------------------------------------
+## ⚡ Como Executar
 
-## 🚀 Preview <a id="preview"></a>
-
-senha: 123
--> https://sistema-gestao-saulo.vercel.app/login
-
-------------------------------------
-
-## ⚙️ Funcionalidades <a id="funcionalidades"></a>
-1. ✅ Uso restrito à desktops
-2. ✅ Dinâmico
-3. ✅ Dashboard para administradores
-4. ✅ Análide automatica de gastos/ganhos com base na data
-5. ✅ Receber e vender
-
-------------------------------------
-
-## 🎨 Layout <a id="layout"></a>
-
-<a href="https://sistema-gestao-saulo.vercel.app/login"><img src="https://img.shields.io/badge/Site-Sistema de Gestão-blue"/></a>
-<img src="https://img.shields.io/badge/Backend-NodeJs-green">
-<img src="https://img.shields.io/badge/Frontend-ReactJS-green">
-<p>*O Layout completo do site está disponível (SENHA: 123)<a href="https://sistema-gestao-saulo.vercel.app/login">aqui</a>.</p>
-
-<img src="screen01.jpeg">
-<img src="screen02.jpeg">
-<img src="screen03.jpeg">
-<img src="screen04.jpeg">
-
-
-------------------------------------
-
-## 🧩 Como Executar <a id="como-executar"></a>
-
-### Desenvolvimento Local:
+### Desenvolvimento
 ```bash
-# Instalar dependências e executar
 npm install
 npm run dev
 ```
 
-### Deploy em Produção:
-- **Recomendado**: [Railway + Vercel](./railway-deploy.md) (melhor opção)
-- **Alternativa**: [Render + Vercel](./deploy.md)
-
-### Comandos Disponíveis:
+### Produção
 ```bash
-# Desenvolvimento (backend + frontend)
-npm run dev
-
-# Apenas backend
-npm run backend:dev
-
-# Apenas frontend  
-npm run frontend:dev
-
-# Produção
-npm run start
+npm install
+npm run build
+npm start
 ```
 
-------------------------------------
+## 📁 Estrutura do Projeto
 
-## 🤖 Tecnologias <a id="tecnologias"></a>
+```
+├── frontend/          # Aplicação React
+├── backend/           # API Node.js
+├── docs/              # Documentação
+├── scripts/           # Scripts utilitários
+├── assets/            # Imagens e recursos
+└── archive/           # Arquivos antigos
+```
 
-Neste sistema de gestão, foram utilizadas as seguintes tecnologias: 
+## 🌐 Deploy em Produção
 
-* Bootstrap <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" width="20px" />
-* HTML5 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original-wordmark.svg" width="20px"/> 
-* CSS3 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="20px"/>
-* Javascript <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="20px"/>
-* Nodejs <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="20px"/>
-* React <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="20px"/>
-* PostgreSQL <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" width="20px"/>
+- [Guia Railway](docs/railway-deploy.md)
+- [Guia Vercel](docs/deploy.md)
+- [Migração Banco](docs/database-migration.md)
 
-------------------------------------
+## 📋 Scripts Disponíveis
 
-## 👨 Autor <a id="autor"></a>
+- `npm run dev` - Executa frontend e backend em modo desenvolvimento
+- `npm run build` - Compila o projeto para produção
+- `npm start` - Executa o projeto em modo produção
+- `npm run backend:dev` - Executa apenas o backend
+- `npm run frontend:dev` - Executa apenas o frontend
 
-<p align="center">➡️ Desenvolvido por <strong>eu</strong> mesmo 🧑‍💻.</p>
+## 🔧 Configuração
 
-------------------------------------
+### Backend
+Copie `backend/env.example` para `backend/.env`:
 
-## 📜 Licença <a id="licenca"></a>
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=sysobras
+DB_USER=postgres
+DB_PASS=admin
+JWT_SECRET=sua-chave-secreta
+ADMIN_USER=admin
+ADMIN_PASS=admin123
+```
 
-<p align="center">Todos os direitos reservados ©Copyright - Saulo Felipe</p>
+### Frontend
+Configure `REACT_APP_API_URL` no arquivo `.env`:
+
+```env
+REACT_APP_API_URL=http://localhost:8081
+```
+
+## 📊 Funcionalidades
+
+- ✅ **Dashboard** com estatísticas e gráficos
+- ✅ **Gestão de Projetos** (CRUD completo)
+- ✅ **Gestão de Produtos** (CRUD completo)
+- ✅ **Gestão de Notas Fiscais** (CRUD completo)
+- ✅ **Busca e Filtros** avançados
+- ✅ **Autenticação JWT** segura
+- ✅ **Interface Responsiva** para mobile
+
+## 🛠️ Desenvolvimento
+
+### Estrutura do Backend
+```
+backend/
+├── src/
+│   ├── controllers/    # Controladores da API
+│   ├── models/         # Modelos do banco de dados
+│   ├── routes/         # Rotas da API
+│   ├── middleware/     # Middlewares
+│   ├── services/       # Serviços
+│   ├── utils/          # Utilitários
+│   └── types/          # Tipos TypeScript
+├── dist/               # Código compilado
+└── logs/               # Logs da aplicação
+```
+
+### Estrutura do Frontend
+```
+frontend/
+├── src/
+│   ├── components/     # Componentes React
+│   ├── pages/          # Páginas da aplicação
+│   ├── services/       # Serviços de API
+│   ├── types/          # Tipos TypeScript
+│   ├── utils/          # Utilitários
+│   └── hooks/          # Hooks customizados
+└── public/             # Arquivos públicos
+```
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT.
