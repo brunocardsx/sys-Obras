@@ -26,7 +26,24 @@ export const createProject = async (req: Request, res: Response): Promise<void> 
       return;
     }
     
-    const project = await Project.create(projectData);
+    // Generate a unique code based on the project name
+    const generateProjectCode = (name: string): string => {
+      const cleanName = name
+        .toUpperCase()
+        .replace(/[^A-Z0-9\s]/g, '')
+        .replace(/\s+/g, '_')
+        .substring(0, 10);
+      
+      const timestamp = Date.now().toString().slice(-4);
+      return `${cleanName}_${timestamp}`;
+    };
+    
+    const projectCode = generateProjectCode(projectData.name);
+    
+    const project = await Project.create({
+      ...projectData,
+      code: projectCode
+    });
     sendSuccess(res, project, 'Project created successfully');
   } catch (error) {
     logger.error('Error creating project:', error);

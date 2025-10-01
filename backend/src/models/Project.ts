@@ -3,6 +3,7 @@ import { sequelize } from '../services/database';
 
 interface ProjectAttributes {
   id?: string;
+  code?: string;
   name: string;
   address?: string;
   createdAt?: Date;
@@ -11,6 +12,7 @@ interface ProjectAttributes {
 
 class Project extends Model<ProjectAttributes> implements ProjectAttributes {
   public id?: string;
+  public code?: string;
   public name!: string;
   public address?: string;
   public createdAt?: Date;
@@ -23,6 +25,15 @@ Project.init(
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
+    },
+    code: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: true,
+        len: [1, 50],
+      },
     },
     name: {
       type: DataTypes.STRING,

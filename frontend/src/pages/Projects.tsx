@@ -56,12 +56,7 @@ const Projects: React.FC = () => {
         address: newProjectAddress.trim() || undefined
       };
       
-      console.log('Enviando dados do projeto:', projectData);
-      console.log('Token no localStorage:', localStorage.getItem('loginToken'));
-      
       const { data } = await api.post('/api/projects', projectData);
-      
-      console.log('Resposta da API:', data);
       
       if (data.status) {
         setNewProjectName('');
@@ -72,8 +67,6 @@ const Projects: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Erro ao criar projeto:', err);
-      console.error('Response data:', err.response?.data);
-      console.error('Response status:', err.response?.status);
       setError(err.response?.data?.message || 'Falha ao criar projeto');
     } finally {
       setIsCreating(false);
