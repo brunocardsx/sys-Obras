@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Op } from 'sequelize';
 import { Invoice } from '../models/Invoice';
 import { InvoiceItem } from '../models/InvoiceItem';
 import { Product } from '../models/Product';
@@ -86,12 +87,39 @@ export const createInvoice = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-export const getInvoices = async (_req: Request, res: Response): Promise<void> => {
+export const getInvoices = async (req: Request, res: Response): Promise<void> => {
   try {
     logger.debug('Starting getInvoices function');
     
-    logger.debug('Attempting to find all invoices');
+    // Extrair parâmetros de filtro da query string
+    const { startDate, endDate, number } = req.query;
+    
+    // Construir condições de filtro
+    const whereConditions: any = {};
+    
+    // Filtro por data
+    if (startDate || endDate) {
+      whereConditions.issueDate = {};
+      if (startDate) {
+        whereConditions.issueDate[Op.gte] = new Date(startDate as string);
+      }
+      if (endDate) {
+        whereConditions.issueDate[Op.lte] = new Date(endDate as string);
+      }
+    }
+    
+    // Filtro por número da nota
+    if (number) {
+      whereConditions.number = {
+        [Op.iLike]: `%${number}%`
+      };
+    }
+    
+    logger.debug('Filter conditions:', whereConditions);
+    logger.debug('Attempting to find invoices with filters');
+    
     const invoices = await Invoice.findAll({
+      where: whereConditions,
       include: [
         {
           model: InvoiceItem,
