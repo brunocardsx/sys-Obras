@@ -54,7 +54,7 @@ export const createInvoiceSchema = Joi.object<CreateInvoiceRequest>({
   totalAmount: Joi.number().min(0).precision(2).required(),
   status: Joi.string().trim().max(50).optional(),
   paymentDate: Joi.date().iso().optional(),
-  notes: Joi.string().trim().optional(),
+  notes: Joi.string().trim().allow('').optional(),
   items: Joi.array().items(
     Joi.object({
       productId: Joi.string().uuid().required(),

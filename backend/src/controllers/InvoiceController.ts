@@ -36,7 +36,49 @@ export const createInvoice = async (req: Request, res: Response): Promise<void> 
       ...(invoiceData.paymentDate && { paymentDate: new Date(invoiceData.paymentDate) })
     };
 
-    const invoice = await Invoice.create(invoiceDataWithDates);
+    // Remove items from invoice data before creating
+    const { items, ...invoiceDataWithoutItems } = invoiceDataWithDates;
+
+    const invoice = await Invoice.create(invoiceDataWithoutItems);
+
+    // Create invoice items if provided
+    if (items && items.length > 0) {
+      const invoiceItems = await Promise.all(
+        items.map(async (item) => {
+          const product = await Product.findByPk(item.productId);
+          return InvoiceItem.create({
+            invoiceId: invoice.id!,
+            productId: item.productId,
+            productName: product?.name || 'Produto não encontrado',
+            productCode: product?.code || '',
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+            totalPrice: item.quantity * item.unitPrice
+          });
+        })
+      );
+
+      // Reload invoice with items
+      await invoice.reload({
+        include: [
+          {
+            model: InvoiceItem,
+            as: 'items',
+            include: [
+              {
+                model: Product,
+                as: 'product'
+              }
+            ]
+          },
+          {
+            model: Project,
+            as: 'project'
+          }
+        ]
+      });
+    }
+
     sendSuccess(res, invoice, 'Invoice created successfully');
   } catch (error) {
     logger.error('Error creating invoice:', error);

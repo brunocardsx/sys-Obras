@@ -1,5 +1,6 @@
 // src/pages/Invoices.tsx
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../services/api';
 import { Invoice as InvoiceType } from '../types';
 
@@ -65,7 +66,20 @@ const Invoices: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Notas Fiscais ({invoices.length})</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h1>Notas Fiscais ({invoices.length})</h1>
+        <Link to="/invoices/create" style={{ 
+          background: '#00D4AA', 
+          color: 'white', 
+          padding: '12px 24px', 
+          borderRadius: '8px', 
+          textDecoration: 'none', 
+          fontWeight: '600',
+          transition: 'all 0.3s ease'
+        }}>
+          + Nova Nota Fiscal
+        </Link>
+      </div>
       
       <div style={{ marginBottom: '20px' }}>
         <button onClick={fetchInvoices}>Atualizar</button>
