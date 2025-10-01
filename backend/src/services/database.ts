@@ -49,28 +49,38 @@ const createDatabaseConnection = (): Sequelize => {
       password: config.password ? '***hidden***' : 'not set',
     });
     
-    return new Sequelize(config.database, config.username, config.password, {
-      host: config.host,
-      port: config.port,
-      dialect: 'postgres',
-      dialectOptions: {
-        ssl: {
-          require: true,
-          rejectUnauthorized: false,
+    logger.info('Creating Sequelize instance...');
+    
+    try {
+      const sequelize = new Sequelize(config.database, config.username, config.password, {
+        host: config.host,
+        port: config.port,
+        dialect: 'postgres',
+        dialectOptions: {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
+          },
         },
-      },
-      logging: false,
-      pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-      },
-      define: {
-        timestamps: true,
-        underscored: false,
-      }
-    });
+        logging: false,
+        pool: {
+          max: 5,
+          min: 0,
+          acquire: 30000,
+          idle: 10000
+        },
+        define: {
+          timestamps: true,
+          underscored: false,
+        }
+      });
+      
+      logger.info('Sequelize instance created successfully');
+      return sequelize;
+    } catch (error) {
+      logger.error('Error creating Sequelize instance:', error);
+      throw error;
+    }
   }
   
   const config: DatabaseConfig = {
@@ -90,14 +100,6 @@ const createDatabaseConnection = (): Sequelize => {
 };
 
 export const sequelize = createDatabaseConnection();
-
-// Log the sequelize instance for debugging
-logger.info('Sequelize instance created:', {
-  dialect: sequelize.getDialect(),
-  database: sequelize.getDatabaseName(),
-  host: sequelize.options.host,
-  port: sequelize.options.port,
-});
 
 export const initializeDatabase = async (): Promise<void> => {
   try {
