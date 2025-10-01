@@ -108,7 +108,7 @@ const Login: React.FC = () => {
                   <input type="checkbox" id="keep-connected-checkbox" />
                   <label htmlFor="keep-connected-checkbox">Manter Conectado</label>
                 </div>
-                <a href="#" className="forgot-password">Recuperar Senha</a>
+                <button type="button" className="forgot-password">Recuperar Senha</button>
               </div>
               <button type="submit" disabled={isLoading}>
                 {isLoading ? 'ENTRANDO...' : 'ENTRAR'}
@@ -117,10 +117,10 @@ const Login: React.FC = () => {
           </div>
         </div>
         <div className="login-image-container">
-          <a href="#" className="support-button">
+          <button type="button" className="support-button">
             <PhoneIcon />
             <span>Central de Atendimento</span>
-          </a>
+          </button>
         </div>
       </div>
     </div>

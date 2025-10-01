@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
-import { Project, Product, CreateInvoiceRequest, CreateInvoiceItemRequest } from '../types';
+import { Project, Product, CreateInvoiceRequest } from '../types';
 import { formatCurrency } from '../utils/format';
 import './CreateInvoice.css';
 
@@ -34,7 +34,7 @@ const CreateInvoice: React.FC = () => {
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState<boolean>(false);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [isDeletingProduct, setIsDeletingProduct] = useState<boolean>(false);
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchTerm] = useState<string>('');
   
   const [formData, setFormData] = useState<InvoiceFormData>({
     number: '',

@@ -316,6 +316,7 @@ const Dashboard: React.FC = () => {
   ];
 
   // Componente customizado para tooltip
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const CustomTooltip = ({ active, payload }: TooltipProps) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
@@ -338,6 +339,7 @@ const Dashboard: React.FC = () => {
   };
 
   // Componente customizado para label do gráfico
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, value }: LabelProps) => {
     if (percent < 0.05) return null; // Não mostrar labels para fatias menores que 5%
     

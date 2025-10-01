@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../services/api';
-import { Invoice as InvoiceType, Project, Product } from '../types';
+import { Invoice as InvoiceType } from '../types';
 import { formatCurrency } from '../utils/format';
 import '../dashboard/dashboard.css';
 import './InvoiceSearch.css';
