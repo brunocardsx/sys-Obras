@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import { Project as ProjectType } from '../types';
+import './Projects.css';
 
 const Projects: React.FC = () => {
   const [projects, setProjects] = useState<ProjectType[]>([]);
@@ -10,6 +11,9 @@ const Projects: React.FC = () => {
   const [newProjectName, setNewProjectName] = useState<string>('');
   const [newProjectAddress, setNewProjectAddress] = useState<string>('');
   const [isCreating, setIsCreating] = useState<boolean>(false);
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [projectToDelete, setProjectToDelete] = useState<ProjectType | null>(null);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   useEffect(() => {
     fetchProjects();
@@ -69,128 +73,216 @@ const Projects: React.FC = () => {
     }
   };
 
+  const handleDeleteProject = (project: ProjectType): void => {
+    setProjectToDelete(project);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDeleteProject = async (): Promise<void> => {
+    if (!projectToDelete) return;
+
+    setIsDeleting(true);
+    setError('');
+
+    try {
+      const { data } = await api.delete(`/api/projects/${projectToDelete.id}`);
+      
+      if (data.status) {
+        // Atualizar lista de projetos
+        await fetchProjects();
+      } else {
+        setError(data.message || 'Erro ao deletar projeto');
+      }
+    } catch (error: any) {
+      setError(error.response?.data?.message || 'Erro ao deletar projeto');
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteModal(false);
+      setProjectToDelete(null);
+    }
+  };
+
   if (loading) {
     return (
-      <div style={{ padding: '20px', textAlign: 'center' }}>
-        <h1>Cadastro de Projetos</h1>
-        <p>Carregando projetos...</p>
+      <div className="projects-container">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p className="loading-text">Carregando projetos...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Cadastro de Projetos ({projects.length})</h1>
-      
-      {/* Formulário de criação */}
-      <form onSubmit={handleCreateProject} style={{ 
-        marginBottom: '30px', 
-        padding: '20px', 
-        border: '1px solid #ddd', 
-        borderRadius: '5px',
-        backgroundColor: '#f9f9f9'
-      }}>
-        <h3>Criar Novo Projeto</h3>
-        
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="obra-name" style={{ display: 'block', marginBottom: '5px' }}>
-            Nome do Projeto *
-          </label>
-          <input
-            id="obra-name"
-            type="text"
-            value={newProjectName}
-            onChange={(e) => setNewProjectName(e.target.value)}
-            placeholder="Digite o nome do projeto"
-            style={{ 
-              width: '100%', 
-              padding: '8px', 
-              border: '1px solid #ccc', 
-              borderRadius: '3px' 
-            }}
-            disabled={isCreating}
-          />
-        </div>
-        
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="obra-address" style={{ display: 'block', marginBottom: '5px' }}>
-            Endereço
-          </label>
-          <input
-            id="obra-address"
-            type="text"
-            value={newProjectAddress}
-            onChange={(e) => setNewProjectAddress(e.target.value)}
-            placeholder="Digite o endereço do projeto"
-            style={{ 
-              width: '100%', 
-              padding: '8px', 
-              border: '1px solid #ccc', 
-              borderRadius: '3px' 
-            }}
-            disabled={isCreating}
-          />
-        </div>
-        
-        <button 
-          type="submit" 
-          disabled={isCreating || !newProjectName.trim()}
-          style={{ 
-            padding: '10px 20px', 
-            backgroundColor: '#007bff', 
-            color: 'white', 
-            border: 'none', 
-            borderRadius: '3px',
-            cursor: isCreating ? 'not-allowed' : 'pointer',
-            opacity: isCreating ? 0.6 : 1
-          }}
-        >
-          {isCreating ? 'Criando...' : 'Criar Projeto'}
-        </button>
-      </form>
-
-      {error && (
-        <div style={{ 
-          padding: '10px', 
-          backgroundColor: '#f8d7da', 
-          color: '#721c24', 
-          border: '1px solid #f5c6cb', 
-          borderRadius: '3px',
-          marginBottom: '20px'
-        }}>
-          {error}
-        </div>
-      )}
-
-      <div style={{ marginBottom: '20px' }}>
-        <button onClick={fetchProjects}>Atualizar Lista</button>
-      </div>
-
-      {/* Lista de obras */}
-      <div style={{ display: 'grid', gap: '10px' }}>
-        {projects.map((project) => (
-          <div 
-            key={project.id} 
-            style={{ 
-              border: '1px solid #ddd', 
-              padding: '15px', 
-              borderRadius: '5px',
-              backgroundColor: '#f9f9f9'
-            }}
-          >
-            <h3>{project.name}</h3>
-            {project.address && (
-              <p><strong>Endereço:</strong> {project.address}</p>
-            )}
-            <p><strong>Criado em:</strong> {project.createdAt instanceof Date ? project.createdAt.toLocaleDateString('pt-BR') : new Date(project.createdAt).toLocaleDateString('pt-BR')}</p>
+    <div className="projects-container">
+      <div className="projects-content">
+        <div className="projects-header">
+          <h1>Cadastro de Projetos</h1>
+          <div className="projects-count">
+            {projects.length} {projects.length === 1 ? 'projeto' : 'projetos'}
           </div>
-        ))}
+        </div>
+        
+        {/* Formulário de criação */}
+        <div className="create-project-section">
+          <h3>
+            <i className="fas fa-plus"></i>
+            Criar Novo Projeto
+          </h3>
+          
+          <form onSubmit={handleCreateProject}>
+            <div className="create-project-form">
+              <div className="form-group">
+                <label htmlFor="obra-name">
+                  <i className="fas fa-building-columns"></i>
+                  Nome do Projeto *
+                </label>
+                <input
+                  id="obra-name"
+                  type="text"
+                  value={newProjectName}
+                  onChange={(e) => setNewProjectName(e.target.value)}
+                  placeholder="Digite o nome do projeto"
+                  disabled={isCreating}
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="obra-address">
+                  <i className="fas fa-map-marker-alt"></i>
+                  Endereço
+                </label>
+                <input
+                  id="obra-address"
+                  type="text"
+                  value={newProjectAddress}
+                  onChange={(e) => setNewProjectAddress(e.target.value)}
+                  placeholder="Digite o endereço do projeto"
+                  disabled={isCreating}
+                />
+              </div>
+            </div>
+            
+            <button 
+              type="submit" 
+              disabled={isCreating || !newProjectName.trim()}
+              className="create-button"
+            >
+              <i className="fas fa-plus"></i>
+              {isCreating ? 'Criando...' : 'Criar Projeto'}
+            </button>
+          </form>
+        </div>
+
+        {error && (
+          <div className="error-message">
+            <i className="fas fa-exclamation-triangle"></i>
+            {error}
+          </div>
+        )}
+
+        <div className="actions-bar">
+          <button onClick={fetchProjects} className="refresh-button">
+            <i className="fas fa-sync-alt"></i>
+            Atualizar Lista
+          </button>
+        </div>
+
+        {/* Lista de projetos */}
+        {projects.length > 0 ? (
+          <div className="projects-grid">
+            {projects.map((project) => (
+              <div key={project.id} className="project-card">
+                <div className="project-header">
+                  <div className="project-icon">
+                    <i className="fas fa-building-columns"></i>
+                  </div>
+                  <h3 className="project-title">{project.name}</h3>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteProject(project)}
+                    className="delete-project-btn"
+                    title="Excluir projeto"
+                  >
+                    <i className="fas fa-times"></i>
+                  </button>
+                </div>
+                
+                <div className="project-details">
+                  <div className="project-detail">
+                    <i className="fas fa-calendar-alt"></i>
+                    <span>Criado em: {project.createdAt instanceof Date ? project.createdAt.toLocaleDateString('pt-BR') : new Date(project.createdAt).toLocaleDateString('pt-BR')}</span>
+                  </div>
+                  
+                  {project.address && (
+                    <div className="project-detail">
+                      <i className="fas fa-map-marker-alt"></i>
+                      <span>Endereço:</span>
+                    </div>
+                  )}
+                  
+                  {project.address && (
+                    <div className="project-address">
+                      {project.address}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state">
+            <div className="empty-state-icon">
+              <i className="fas fa-building-columns"></i>
+            </div>
+            <h3>Nenhum projeto encontrado</h3>
+            <p>Crie seu primeiro projeto para começar</p>
+          </div>
+        )}
       </div>
 
-      {projects.length === 0 && (
-        <p style={{ textAlign: 'center', color: '#666' }}>
-          Nenhum projeto encontrado
-        </p>
+      {/* Modal de confirmação para deletar projeto */}
+      {showDeleteModal && projectToDelete && (
+        <div className="modal-overlay" onClick={() => setShowDeleteModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Confirmar Exclusão</h3>
+              <button
+                type="button"
+                className="modal-close"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="modal-body">
+              <p>Tem certeza que deseja excluir o projeto <strong>"{projectToDelete.name}"</strong>?</p>
+              <p className="warning-text">Esta ação não pode ser desfeita.</p>
+            </div>
+
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="cancel-button"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                <i className="fas fa-times"></i>
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="delete-button"
+                onClick={confirmDeleteProject}
+                disabled={isDeleting}
+              >
+                <i className="fas fa-trash"></i>
+                {isDeleting ? 'Excluindo...' : 'Excluir Projeto'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

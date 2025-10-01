@@ -6,12 +6,11 @@ import {
   updateProject, 
   deleteProject 
 } from '../controllers/ProjectController';
-import { authMiddleware, requireAdmin } from '../middleware/authMiddleware';
+import { authMiddleware } from '../middleware/authMiddleware';
 
 const router = Router();
 
 router.use(authMiddleware);
-router.use(requireAdmin);
 
 router.post('/', createProject);
 router.get('/', getProjects);
