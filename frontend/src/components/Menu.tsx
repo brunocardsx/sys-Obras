@@ -16,8 +16,8 @@ interface MenuProps {
 
 const PRIMARY_MENU_ITEMS: readonly MenuItem[] = [
   { path: '/dashboard', icon: 'fas fa-home', label: 'Início' },
-  { path: '/select-action/venda', icon: 'fas fa-file-invoice-dollar', label: 'Cadastrar Nota' },
-  { path: '/invoices', icon: 'fas fa-search', label: 'Consultar Nota' },
+  { path: '/invoices/create', icon: 'fas fa-file-invoice-dollar', label: 'Cadastrar Nota' },
+  { path: '/invoices/search', icon: 'fas fa-search', label: 'Consultar Nota' },
   { path: '/projects', icon: 'fas fa-building-columns', label: 'Projetos' },
 ] as const;
 
@@ -30,7 +30,10 @@ const Menu: React.FC<MenuProps> = ({ isOpen, closeMenu }) => {
   const location = useLocation();
 
   const isActive = (path: string): string => {
-    if (path === '/invoices' && location.pathname.includes('/invoices')) {
+    if (path === '/invoices/search' && location.pathname.includes('/invoices/search')) {
+      return 'active';
+    }
+    if (path === '/invoices/create' && location.pathname.includes('/invoices/create')) {
       return 'active';
     }
     return location.pathname === path ? 'active' : '';
