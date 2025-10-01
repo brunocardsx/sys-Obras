@@ -151,8 +151,6 @@ const CreateInvoice: React.FC = () => {
   };
 
   const handleProductSearch = (searchTerm: string): void => {
-    setSearchTerm(searchTerm);
-    
     if (!searchTerm.trim()) {
       setFilteredProducts(products);
       setShowProductDropdown(false);
