@@ -5,9 +5,19 @@ import { DatabaseConfig } from '../types';
 const createDatabaseConnection = (): Sequelize => {
   const isProduction = process.env['NODE_ENV'] === 'production';
   
+  // Log environment variables for debugging
+  logger.info('Database connection config:', {
+    NODE_ENV: process.env['NODE_ENV'],
+    hasDATABASE_URL: !!process.env['DATABASE_URL'],
+    hasDB_HOST: !!process.env['DB_HOST'],
+    DATABASE_URL: process.env['DATABASE_URL'] ? '***hidden***' : 'not set',
+    DB_HOST: process.env['DB_HOST'],
+  });
+  
   if (isProduction) {
     // Use DATABASE_URL if available (Railway), otherwise use individual variables
     if (process.env['DATABASE_URL']) {
+      logger.info('Using DATABASE_URL for connection');
       return new Sequelize(process.env['DATABASE_URL']!, {
         dialect: 'postgres',
         dialectOptions: {
@@ -20,6 +30,7 @@ const createDatabaseConnection = (): Sequelize => {
       });
     }
     
+    logger.info('Using individual DB variables for connection');
     const config: DatabaseConfig = {
       host: process.env['DB_HOST']!,
       port: parseInt(process.env['DB_PORT'] || '5432'),
@@ -28,6 +39,14 @@ const createDatabaseConnection = (): Sequelize => {
       password: process.env['DB_PASS']!,
       ssl: true,
     };
+    
+    logger.info('Database config:', {
+      host: config.host,
+      port: config.port,
+      database: config.database,
+      username: config.username,
+      hasPassword: !!config.password,
+    });
     
     return new Sequelize(config.database, config.username, config.password, {
       host: config.host,
