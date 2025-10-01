@@ -39,6 +39,42 @@ interface RecentInvoice {
   readonly status: string;
 }
 
+interface ApiInvoiceResponse {
+  readonly id: string;
+  readonly number: string;
+  readonly issueDate: string;
+  readonly totalAmount: string | number;
+  readonly status?: string;
+  readonly project?: {
+    readonly name: string;
+  };
+  readonly projectId: string;
+}
+
+interface TooltipProps {
+  readonly active?: boolean;
+  readonly payload?: Array<{
+    readonly payload: {
+      readonly mes: string;
+      readonly total_compras: number;
+    };
+    readonly value: number;
+    readonly color: string;
+    readonly name: string;
+    readonly formattedValue: string;
+  }>;
+}
+
+interface LabelProps {
+  readonly cx: number;
+  readonly cy: number;
+  readonly midAngle: number;
+  readonly innerRadius: number;
+  readonly outerRadius: number;
+  readonly percent: number;
+  readonly value: number;
+}
+
 const Dashboard: React.FC = () => {
   const [dadosGrafico, setDadosGrafico] = useState<ChartData[]>([]);
   const [mesSelecionado, setMesSelecionado] = useState<string>('todos');
@@ -88,12 +124,12 @@ const Dashboard: React.FC = () => {
       if (data.status && Array.isArray(data.data)) {
         // Pegar as 5 notas fiscais mais recentes
         const recent = data.data
-          .sort((a: any, b: any) => new Date(b.issueDate).getTime() - new Date(a.issueDate).getTime())
+          .sort((a: ApiInvoiceResponse, b: ApiInvoiceResponse) => new Date(b.issueDate).getTime() - new Date(a.issueDate).getTime())
           .slice(0, 5)
-          .map((invoice: any) => ({
+          .map((invoice: ApiInvoiceResponse) => ({
             id: invoice.id,
             number: invoice.number,
-            totalAmount: parseFloat(invoice.totalAmount || 0),
+            totalAmount: parseFloat(String(invoice.totalAmount) || '0'),
             issueDate: invoice.issueDate,
             projectName: invoice.project?.name || 'N/A',
             status: invoice.status || 'Pendente'
@@ -118,12 +154,12 @@ const Dashboard: React.FC = () => {
       
       if (data.status && Array.isArray(data.data)) {
         // Filtrar notas fiscais da obra selecionada
-        const invoicesProject = data.data.filter((invoice: any) => invoice.projectId === selectedProject);
+        const invoicesProject = data.data.filter((invoice: ApiInvoiceResponse) => invoice.projectId === selectedProject);
         
         // Agrupar por mês e calcular totais
         const gastosPorMes: { [key: string]: number } = {};
         
-        invoicesProject.forEach((invoice: any) => {
+        invoicesProject.forEach((invoice: ApiInvoiceResponse) => {
           const mes = new Date(invoice.issueDate).toLocaleDateString('pt-BR', { 
             year: 'numeric', 
             month: 'long' 
@@ -132,7 +168,7 @@ const Dashboard: React.FC = () => {
           if (!gastosPorMes[mes]) {
             gastosPorMes[mes] = 0;
           }
-          gastosPorMes[mes] += parseFloat(invoice.totalAmount) || 0;
+          gastosPorMes[mes] += parseFloat(String(invoice.totalAmount)) || 0;
         });
         
         // Converter para array
@@ -151,10 +187,13 @@ const Dashboard: React.FC = () => {
         setDadosGrafico([]);
         setErrorMsg(data.message || 'Nenhum dado retornado para o projeto selecionado.');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Erro API Notas:', error);
       setDadosGrafico([]);
-      setErrorMsg(error.response?.data?.message || 'Falha ao buscar dados de compras.');
+      const errorMessage = error instanceof Error && 'response' in error 
+        ? (error as { response?: { data?: { message?: string } } }).response?.data?.message
+        : 'Falha ao buscar dados de compras.';
+      setErrorMsg(errorMessage || 'Falha ao buscar dados de compras.');
     } finally {
       setLoading(false);
     }
@@ -278,7 +317,7 @@ const Dashboard: React.FC = () => {
   ];
 
   // Componente customizado para tooltip
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: TooltipProps) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       const percentage = ((data.value / totalGastos) * 100).toFixed(1);
@@ -300,7 +339,7 @@ const Dashboard: React.FC = () => {
   };
 
   // Componente customizado para label do gráfico
-  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, value }: any) => {
+  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, value }: LabelProps) => {
     if (percent < 0.05) return null; // Não mostrar labels para fatias menores que 5%
     
     const RADIAN = Math.PI / 180;

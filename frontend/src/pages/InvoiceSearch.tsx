@@ -142,8 +142,11 @@ const InvoiceSearch: React.FC = () => {
       }
       
       setError(data.message || 'Erro ao excluir nota fiscal');
-    } catch (error: any) {
-      setError(error.response?.data?.message || 'Erro ao excluir nota fiscal');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error && 'response' in error 
+        ? (error as { response?: { data?: { message?: string } } }).response?.data?.message
+        : 'Erro ao excluir nota fiscal';
+      setError(errorMessage || 'Erro ao excluir nota fiscal');
     } finally {
       setIsDeleting(false);
     }
@@ -164,8 +167,11 @@ const InvoiceSearch: React.FC = () => {
       }
       
       setError(data.message || 'Erro ao atualizar nota fiscal');
-    } catch (error: any) {
-      setError(error.response?.data?.message || 'Erro ao atualizar nota fiscal');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error && 'response' in error 
+        ? (error as { response?: { data?: { message?: string } } }).response?.data?.message
+        : 'Erro ao atualizar nota fiscal';
+      setError(errorMessage || 'Erro ao atualizar nota fiscal');
     } finally {
       setLoading(false);
     }
