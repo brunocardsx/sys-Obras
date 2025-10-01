@@ -11,6 +11,7 @@ import { Sale } from "./pages/Sale";
 import { Receive } from "./pages/Receive";
 import { Stock } from './pages/Stock';
 import { Invoices } from './pages/Invoices';
+import { InvoiceSearch } from './pages/InvoiceSearch';
 import { CreateInvoice } from './pages/CreateInvoice';
 import { Projects } from "./pages/Projects";
 import { Error404 } from "./pages/Error404";
@@ -60,6 +61,7 @@ const App: React.FC = () => {
           <Route path="/select-action/venda" element={<Sale />} />
           <Route path="/select-action/receber" element={<Receive />} />
           <Route path="/invoices" element={<Invoices />} />
+          <Route path="/invoices/search" element={<InvoiceSearch />} />
           <Route path="/invoices/create" element={<CreateInvoice />} />
           <Route path="/stock" element={<Stock />} />
 
