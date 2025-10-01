@@ -339,9 +339,10 @@ const CreateInvoice: React.FC = () => {
         <button 
           type="button" 
           className="back-button"
-          onClick={() => navigate('/dashboard')}
+          onClick={() => navigate('/invoices')}
         >
-          ← Voltar
+          <i className="fas fa-arrow-left"></i>
+          Voltar
         </button>
       </div>
 
@@ -352,7 +353,10 @@ const CreateInvoice: React.FC = () => {
             <h2>Lançamento da Nota Fiscal</h2>
             
             <div className="form-group">
-              <label htmlFor="invoiceNumber">Número da Nota Fiscal</label>
+              <label htmlFor="invoiceNumber">
+                <i className="fas fa-file-invoice"></i>
+                Número da Nota Fiscal
+              </label>
               <input
                 type="text"
                 id="invoiceNumber"
@@ -364,12 +368,16 @@ const CreateInvoice: React.FC = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="project">Projeto (Obra)</label>
+              <label htmlFor="project">
+                <i className="fas fa-building-columns"></i>
+                Projeto (Obra)
+              </label>
               <select
                 id="project"
                 value={formData.projectId}
                 onChange={(e) => handleInputChange('projectId', e.target.value)}
                 required
+                className="modern-select"
               >
                 <option value="">Selecione um projeto</option>
                 {projects.map(project => (
@@ -381,7 +389,10 @@ const CreateInvoice: React.FC = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="issueDate">Data da Nota Fiscal</label>
+              <label htmlFor="issueDate">
+                <i className="fas fa-calendar-alt"></i>
+                Data da Nota Fiscal
+              </label>
               <input
                 type="date"
                 id="issueDate"
@@ -393,6 +404,7 @@ const CreateInvoice: React.FC = () => {
 
             <div className="form-group">
               <label htmlFor="productSearch">
+                <i className="fas fa-box"></i>
                 Selecione ou Crie um Produto
                 <span className="shortcut-hint">(CTRL + ENTER para criar novo)</span>
               </label>
@@ -439,7 +451,10 @@ const CreateInvoice: React.FC = () => {
 
             <div className="item-details">
               <div className="form-group">
-                <label htmlFor="quantity">Quantidade</label>
+                <label htmlFor="quantity">
+                  <i className="fas fa-hashtag"></i>
+                  Quantidade
+                </label>
                 <input
                   type="number"
                   id="quantity"
@@ -451,7 +466,10 @@ const CreateInvoice: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="unitPrice">Valor Unitário</label>
+                <label htmlFor="unitPrice">
+                  <i className="fas fa-dollar-sign"></i>
+                  Valor Unitário
+                </label>
                 <input
                   type="number"
                   id="unitPrice"
@@ -463,7 +481,10 @@ const CreateInvoice: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="totalPrice">Total</label>
+                <label htmlFor="totalPrice">
+                  <i className="fas fa-calculator"></i>
+                  Total
+                </label>
                 <input
                   type="text"
                   id="totalPrice"
@@ -479,12 +500,16 @@ const CreateInvoice: React.FC = () => {
                 className="add-item-button"
                 disabled={!currentItem.productId}
               >
+                <i className="fas fa-plus"></i>
                 Adicionar Item
               </button>
             </div>
 
             <div className="form-group">
-              <label htmlFor="notes">Observações</label>
+              <label htmlFor="notes">
+                <i className="fas fa-comment"></i>
+                Observações
+              </label>
               <textarea
                 id="notes"
                 value={formData.notes || ''}
@@ -500,41 +525,42 @@ const CreateInvoice: React.FC = () => {
             <h2>Itens da Nota</h2>
             
             {invoiceItems.length > 0 ? (
-              <div className="invoice-items-table">
-                <div className="table-header">
-                  <div className="col-product">PRODUTO</div>
-                  <div className="col-quantity">QTD.</div>
-                  <div className="col-unit">VLR. UNIT.</div>
-                  <div className="col-total">TOTAL</div>
-                  <div className="col-actions">AÇÕES</div>
+              <div className="items-list">
+                <div className="items-list-header">
+                  <div>PRODUTO</div>
+                  <div>QTD.</div>
+                  <div>VLR. UNIT.</div>
+                  <div>TOTAL</div>
+                  <div>AÇÕES</div>
                 </div>
                 
                 {invoiceItems.map((item, index) => (
-                  <div key={index} className="table-row">
-                    <div className="col-product">{item.productName}</div>
-                    <div className="col-quantity">{item.quantity}</div>
-                    <div className="col-unit">{formatCurrency(item.unitPrice)}</div>
-                    <div className="col-total">{formatCurrency(item.totalPrice)}</div>
-                    <div className="col-actions">
+                  <div key={index} className="item-row">
+                    <div className="item-name">{item.productName}</div>
+                    <div className="item-quantity">{item.quantity}</div>
+                    <div className="item-unit-price">{formatCurrency(item.unitPrice)}</div>
+                    <div className="item-total-price">{formatCurrency(item.totalPrice)}</div>
+                    <div>
                       <button
                         type="button"
                         onClick={() => removeItemFromInvoice(index)}
-                        className="remove-item-button"
+                        className="remove-item-btn"
                         title="Remover item"
                       >
-                        ×
+                        <i className="fas fa-trash"></i>
                       </button>
                     </div>
                   </div>
                 ))}
                 
-                <div className="table-footer">
+                <div className="total-summary">
                   <div className="total-label">Total:</div>
                   <div className="total-value">{formatCurrency(calculateTotalAmount())}</div>
                 </div>
               </div>
             ) : (
-              <div className="no-items-message">
+              <div className="empty-state">
+                <i className="fas fa-inbox"></i>
                 <p>Nenhum item adicionado à nota fiscal</p>
               </div>
             )}
@@ -543,16 +569,18 @@ const CreateInvoice: React.FC = () => {
 
         {error && (
           <div className="error-message">
+            <i className="fas fa-exclamation-triangle"></i>
             {error}
           </div>
         )}
 
-        <div className="form-actions">
+        <div className="action-buttons">
           <button
             type="button"
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/invoices')}
             className="cancel-button"
           >
+            <i className="fas fa-times"></i>
             Cancelar
           </button>
           <button
@@ -560,6 +588,7 @@ const CreateInvoice: React.FC = () => {
             disabled={loading || invoiceItems.length === 0}
             className="save-button"
           >
+            <i className="fas fa-save"></i>
             {loading ? 'Salvando...' : 'Salvar Nota Fiscal'}
           </button>
         </div>
@@ -582,7 +611,10 @@ const CreateInvoice: React.FC = () => {
             
             <div className="modal-body">
               <div className="form-group">
-                <label htmlFor="newProductName">Nome do Produto</label>
+                <label htmlFor="newProductName">
+                  <i className="fas fa-box"></i>
+                  Nome do Produto
+                </label>
                 <input
                   type="text"
                   id="newProductName"
@@ -608,6 +640,7 @@ const CreateInvoice: React.FC = () => {
                 className="cancel-button"
                 onClick={() => setShowNewProductModal(false)}
               >
+                <i className="fas fa-times"></i>
                 Cancelar
               </button>
               <button
@@ -616,6 +649,7 @@ const CreateInvoice: React.FC = () => {
                 onClick={createNewProduct}
                 disabled={isCreatingProduct || !newProductName.trim()}
               >
+                <i className="fas fa-plus"></i>
                 {isCreatingProduct ? 'Criando...' : 'Criar Produto'}
               </button>
             </div>
@@ -649,6 +683,7 @@ const CreateInvoice: React.FC = () => {
                 className="cancel-button"
                 onClick={() => setShowDeleteConfirmModal(false)}
               >
+                <i className="fas fa-times"></i>
                 Cancelar
               </button>
               <button
@@ -657,6 +692,7 @@ const CreateInvoice: React.FC = () => {
                 onClick={confirmDeleteProduct}
                 disabled={isDeletingProduct}
               >
+                <i className="fas fa-trash"></i>
                 {isDeletingProduct ? 'Excluindo...' : 'Excluir Produto'}
               </button>
             </div>
