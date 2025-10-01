@@ -8,8 +8,5 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "env": {
-    "REACT_APP_API_URL": "https://sys-obras-production.up.railway.app"
-  }
+  ]
 }
