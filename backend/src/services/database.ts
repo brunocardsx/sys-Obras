@@ -16,8 +16,12 @@ const createDatabaseConnection = (): Sequelize => {
   });
   
   if (isProduction) {
-    // Force use DATABASE_URL from Railway (hardcoded for testing)
-    const databaseUrl = process.env['DATABASE_URL'] || 'postgresql://postgres:yxEaSNVppoBNxUrIvJOwquOqRuomLhiM@postgres.railway.internal:5432/railway';
+    // Use DATABASE_URL from Railway environment variables
+    const databaseUrl = process.env['DATABASE_URL'];
+    
+    if (!databaseUrl) {
+      throw new Error('DATABASE_URL environment variable is required for production');
+    }
     
     logger.info('Using DATABASE_URL for connection:', databaseUrl ? '***hidden***' : 'not set');
     return new Sequelize(databaseUrl, {
@@ -30,58 +34,6 @@ const createDatabaseConnection = (): Sequelize => {
       },
       logging: false,
     });
-    
-    logger.info('Using individual DB variables for connection');
-    const config: DatabaseConfig = {
-      host: process.env['DB_HOST']!,
-      port: parseInt(process.env['DB_PORT'] || '5432'),
-      database: process.env['DB_NAME']!,
-      username: process.env['DB_USER']!,
-      password: process.env['DB_PASS']!,
-      ssl: true,
-    };
-    
-    logger.info('Database config:', {
-      host: config.host,
-      port: config.port,
-      database: config.database,
-      username: config.username,
-      hasPassword: !!config.password,
-      password: config.password ? '***hidden***' : 'not set',
-    });
-    
-    logger.info('Creating Sequelize instance...');
-    
-    try {
-      const sequelize = new Sequelize(config.database, config.username, config.password, {
-        host: config.host,
-        port: config.port,
-        dialect: 'postgres',
-        dialectOptions: {
-          ssl: {
-            require: true,
-            rejectUnauthorized: false,
-          },
-        },
-        logging: false,
-        pool: {
-          max: 5,
-          min: 0,
-          acquire: 30000,
-          idle: 10000
-        },
-        define: {
-          timestamps: true,
-          underscored: false,
-        }
-      });
-      
-      logger.info('Sequelize instance created successfully');
-      return sequelize;
-    } catch (error) {
-      logger.error('Error creating Sequelize instance:', error);
-      throw error;
-    }
   }
   
   const config: DatabaseConfig = {
