@@ -185,6 +185,36 @@ export interface InvoiceItemFormData {
   readonly unitPrice: number;
 }
 
+// Dashboard types
+export interface ProjectBreakdown {
+  readonly projectId: string;
+  readonly projectName: string;
+  readonly amount: number;
+  readonly invoices: number;
+  readonly monthlyBreakdown: MonthlyBreakdown[];
+}
+
+export interface MonthlyBreakdown {
+  readonly month: string;
+  readonly amount: number;
+}
+
+export interface RecentInvoice {
+  readonly id: string;
+  readonly number: string;
+  readonly projectName: string;
+  readonly totalAmount: number;
+  readonly issueDate: Date;
+  readonly status: string;
+}
+
+export interface TopProduct {
+  readonly productId: string;
+  readonly productName: string;
+  readonly totalAmount: number;
+  readonly totalQuantity: number;
+}
+
 // Error types
 export interface ApiError {
   readonly message: string;

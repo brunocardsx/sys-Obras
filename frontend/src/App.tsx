@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 
 // Import pages
 import { Login } from './pages/Login';
-import { Dashboard } from './pages/Dashboard';
+import Dashboard from './pages/Dashboard';
 import { Product } from './pages/Product';
 import { SelectAction } from './pages/SelectAction';
 import { Sale } from "./pages/Sale";

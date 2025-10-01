@@ -17,6 +17,7 @@ export const API_ROUTES = {
   PROJECTS: '/api/projects',
   INVOICES: '/api/invoices',
   SALES: '/api/sales',
+  DASHBOARD: '/api/dashboard',
   HEALTH: '/api/health',
 } as const;
 
