@@ -101,10 +101,12 @@ const startServer = async (): Promise<void> => {
   try {
     logger.info('Starting server initialization...');
     
+    // Initialize database first
     logger.info('Initializing database...');
     await initializeDatabase();
     logger.info('Database initialized successfully');
     
+    // Create Express app
     logger.info('Creating Express app...');
     const app = createApp();
     logger.info('Express app created successfully');

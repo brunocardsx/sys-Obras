@@ -4,23 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import '../login/login.css';
 import { STORAGE_KEYS, ERROR_MESSAGES } from '../types/constants';
 
-// Phone Icon component
-const PhoneIcon: React.FC = () => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    fill="none" 
-    viewBox="0 0 24 24" 
-    strokeWidth="2.5" 
-    stroke="currentColor" 
-    style={{ width: '18px', height: '18px', marginRight: '8px' }}
-  >
-    <path 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
-      d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.211-.998-.554-1.35l-3.956-4.448a2.25 2.25 0 00-3.163.028l-1.87 1.87a11.25 11.25 0 01-5.27-5.27l1.87-1.87a2.25 2.25 0 00.028-3.163L6.45 3.304a2.25 2.25 0 00-1.35-.554H3.75A2.25 2.25 0 001.5 5.25v1.5Z" 
-    />
-  </svg>
-);
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -108,19 +91,12 @@ const Login: React.FC = () => {
                   <input type="checkbox" id="keep-connected-checkbox" />
                   <label htmlFor="keep-connected-checkbox">Manter Conectado</label>
                 </div>
-                <button type="button" className="forgot-password">Recuperar Senha</button>
               </div>
               <button type="submit" disabled={isLoading}>
                 {isLoading ? 'ENTRANDO...' : 'ENTRAR'}
               </button>
             </form>
           </div>
-        </div>
-        <div className="login-image-container">
-          <button type="button" className="support-button">
-            <PhoneIcon />
-            <span>Central de Atendimento</span>
-          </button>
         </div>
       </div>
     </div>
