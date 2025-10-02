@@ -44,7 +44,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/brunocardoso/sistest/tree/main/documentation/',
+            'https://github.com/brunocardsx/sistest/tree/main/documentation/',
         },
         blog: {
           showReadingTime: true,
@@ -55,7 +55,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/brunocardoso/sistest/tree/main/documentation/',
+            'https://github.com/brunocardsx/sistest/tree/main/documentation/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -89,7 +89,7 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/brunocardoso/sistest',
+          href: 'https://github.com/brunocardsx/sistest',
           label: 'GitHub',
           position: 'right',
         },
@@ -133,7 +133,7 @@ const config: Config = {
             },
             {
               label: 'GitHub',
-              href: 'https://github.com/brunocardoso/sistest',
+              href: 'https://github.com/brunocardsx/sistest',
             },
           ],
         },

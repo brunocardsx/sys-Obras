@@ -46,7 +46,7 @@ Sistema completo de gestão de obras com frontend React e backend Node.js, ofere
 
 ### 1. Clone o repositório
 ```bash
-git clone https://github.com/brunocardoso/sistest.git
+git clone https://github.com/brunocardsx/sistest.git
 cd sistest
 ```
 
@@ -306,6 +306,6 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 **⭐ Se este projeto te ajudou, considere dar uma estrela!**
 
-[🚀 Ver Documentação Completa](./documentation) | [🐛 Reportar Bug](https://github.com/brunocardoso/sistest/issues) | [💡 Sugerir Feature](https://github.com/brunocardoso/sistest/issues)
+[🚀 Ver Documentação Completa](./documentation) | [🐛 Reportar Bug](https://github.com/brunocardsx/sistest/issues) | [💡 Sugerir Feature](https://github.com/brunocardsx/sistest/issues)
 
 </div>
