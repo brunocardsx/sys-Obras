@@ -697,7 +697,7 @@ const Dashboard: React.FC = () => {
                                 y={barY}
                                 width={barWidth}
                                 height={barHeight}
-                                fill="url(#gnGradient)"
+                                fill={COLORS[index % COLORS.length]}
                                 rx="6"
                                 ry="6"
                                 filter="url(#barShadow)"
