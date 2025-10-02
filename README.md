@@ -46,8 +46,8 @@ Sistema completo de gestão de obras com frontend React e backend Node.js, ofere
 
 ### 1. Clone o repositório
 ```bash
-git clone https://github.com/brunocardsx/sistest.git
-cd sistest
+git clone https://github.com/brunocardsx/sys-Obras.git
+cd sys-Obras
 ```
 
 ### 2. Instale todas as dependências
@@ -200,10 +200,10 @@ documentation/
 ```bash
 # Build da imagem (a partir da pasta backend)
 cd backend
-docker build -t sistest .
+docker build -t sys-Obras .
 
 # Executar container
-docker run -p 8081:8081 sistest
+docker run -p 8081:8081 sys-Obras
 ```
 
 ## 🛠️ Desenvolvimento
@@ -306,6 +306,6 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 **⭐ Se este projeto te ajudou, considere dar uma estrela!**
 
-[🚀 Ver Documentação Completa](./documentation) | [🐛 Reportar Bug](https://github.com/brunocardsx/sistest/issues) | [💡 Sugerir Feature](https://github.com/brunocardsx/sistest/issues)
+[🚀 Ver Documentação Completa](./documentation) | [🐛 Reportar Bug](https://github.com/brunocardsx/sys-Obras/issues) | [💡 Sugerir Feature](https://github.com/brunocardsx/sys-Obras/issues)
 
 </div>

@@ -15,7 +15,7 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://sistest-docs.vercel.app',
+  url: 'https://sys-obras-docs.vercel.app',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -23,7 +23,7 @@ const config: Config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'Bruno Cardoso', // Usually your GitHub org/user name.
-  projectName: 'sistest', // Usually your repo name.
+  projectName: 'sys-Obras', // Usually your repo name.
 
   onBrokenLinks: 'throw',
 
@@ -44,7 +44,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/brunocardsx/sistest/tree/main/documentation/',
+            'https://github.com/brunocardsx/sys-Obras/tree/main/documentation/',
         },
         blog: {
           showReadingTime: true,
@@ -55,7 +55,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/brunocardsx/sistest/tree/main/documentation/',
+            'https://github.com/brunocardsx/sys-Obras/tree/main/documentation/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -89,7 +89,7 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/brunocardsx/sistest',
+          href: 'https://github.com/brunocardsx/sys-Obras',
           label: 'GitHub',
           position: 'right',
         },
@@ -133,7 +133,7 @@ const config: Config = {
             },
             {
               label: 'GitHub',
-              href: 'https://github.com/brunocardsx/sistest',
+              href: 'https://github.com/brunocardsx/sys-Obras',
             },
           ],
         },
