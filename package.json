@@ -6,12 +6,15 @@
   "scripts": {
     "start": "cd backend && npm start",
     "build": "cd backend && npm install && npm run build",
-    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install && cd ../documentation && npm install",
     "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
     "backend:dev": "cd backend && npm run dev",
     "frontend:dev": "cd frontend && npm start",
     "backend:start": "cd backend && npm start",
-    "frontend:start": "cd frontend && npm start"
+    "frontend:start": "cd frontend && npm start",
+    "docs:dev": "cd documentation && npm start",
+    "docs:build": "cd documentation && npm run build",
+    "docs:serve": "cd documentation && npm run serve"
   },
   "keywords": [],
   "author": "Bruno Cardoso",
