@@ -298,7 +298,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ## 👨‍💻 Autor
 
 **Bruno Cardoso**
-- GitHub: [@brunocardx](https://github.com/brunocardsx)
+- GitHub: [@brunocardsx](https://github.com/brunocardsx)
 
 ---
 
