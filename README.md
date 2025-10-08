@@ -28,8 +28,6 @@ Sistema completo de gestão de obras com frontend React e backend Node.js, ofere
 - **Frontend**: React 18, TypeScript, CSS3
 - **Backend**: Node.js, Express, TypeScript, Sequelize
 - **Banco de Dados**: PostgreSQL
-- **Autenticação**: JWT (JSON Web Tokens)
-- **Documentação**: Docusaurus
 
 ## Principais Funcionalidades
 
