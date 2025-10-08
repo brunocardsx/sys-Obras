@@ -1,8 +1,8 @@
-# 🏗️ Sistema de Gestão de Obras
+#  Sistema de Gestão de Obras
 
 Sistema completo de gestão de obras com frontend React e backend Node.js, oferecendo uma solução robusta para gerenciar projetos, produtos, notas fiscais e muito mais.
 
-## 📸 Screenshots do Sistema
+## Screenshots do Sistema
 
 <div align="center">
 
@@ -23,7 +23,7 @@ Sistema completo de gestão de obras com frontend React e backend Node.js, ofere
 
 </div>
 
-## 🚀 Tecnologias
+## Tecnologias
 
 - **Frontend**: React 18, TypeScript, CSS3
 - **Backend**: Node.js, Express, TypeScript, Sequelize
@@ -31,18 +31,18 @@ Sistema completo de gestão de obras com frontend React e backend Node.js, ofere
 - **Autenticação**: JWT (JSON Web Tokens)
 - **Documentação**: Docusaurus
 
-## ✨ Principais Funcionalidades
+## Principais Funcionalidades
 
-- 📊 **Dashboard** com estatísticas e gráficos em tempo real
-- 🏗️ **Gestão de Projetos** (CRUD completo)
-- 📦 **Gestão de Produtos** (CRUD completo)
-- 📄 **Gestão de Notas Fiscais** (CRUD completo)
-- 🔍 **Busca e Filtros** avançados
-- 🔐 **Autenticação JWT** segura
-- 📱 **Interface Responsiva** para dispositivos móveis
-- 📚 **Documentação Completa** com Docusaurus
+- **Dashboard** com estatísticas e gráficos em tempo real
+- **Gestão de Projetos** (CRUD completo)
+- **Gestão de Produtos** (CRUD completo)
+- **Gestão de Notas Fiscais** (CRUD completo)
+- **Busca e Filtros** avançados
+- **Autenticação JWT** segura
+- **Interface Responsiva** para dispositivos móveis
+- **Documentação Completa** com Docusaurus
 
-## ⚡ Instalação Rápida
+## Instalação Rápida
 
 ### 1. Clone o repositório
 ```bash
@@ -87,16 +87,11 @@ REACT_APP_API_URL=http://localhost:8081
 # Desenvolvimento (frontend + backend)
 npm run dev
 
-# Ou execute separadamente:
-npm run backend:dev  # Backend na porta 8081
-npm run frontend:dev # Frontend na porta 3000
-```
-
-## 📚 Documentação
+## Documentação
 
 Este projeto inclui uma documentação completa criada com **Docusaurus**!
 
-### 🚀 Executar a documentação
+### Executar a documentação
 ```bash
 # Desenvolvimento
 npm run docs:dev
@@ -110,7 +105,7 @@ npm run docs:serve
 
 A documentação estará disponível em: `http://localhost:3000`
 
-### 📖 O que você encontrará na documentação:
+### O que você encontrará na documentação:
 - Guia completo de instalação
 - Tutoriais passo a passo
 - Documentação da API
@@ -118,7 +113,7 @@ A documentação estará disponível em: `http://localhost:3000`
 - Guias de deploy
 - Blog com atualizações
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 ├── frontend/          # Aplicação React
@@ -130,26 +125,13 @@ A documentação estará disponível em: `http://localhost:3000`
 └── README.md          # Este arquivo
 ```
 
-## 📋 Scripts Disponíveis
-
-### Aplicação Principal
-- `npm run dev` - Executa frontend e backend em desenvolvimento
-- `npm run build` - Compila o projeto para produção
-- `npm start` - Executa o projeto em produção
-- `npm run install:all` - Instala dependências de todos os projetos
-
-### Componentes Individuais
-- `npm run backend:dev` - Executa apenas o backend
-- `npm run frontend:dev` - Executa apenas o frontend
-- `npm run backend:start` - Executa backend em produção
-- `npm run frontend:start` - Executa frontend em produção
 
 ### Documentação
 - `npm run docs:dev` - Executa documentação em desenvolvimento
 - `npm run docs:build` - Compila documentação para produção
 - `npm run docs:serve` - Serve documentação compilada
 
-## 🌐 Acessando a Aplicação
+## Acessando a Aplicação
 
 Após a instalação:
 - **Frontend**: http://localhost:3000
@@ -160,7 +142,7 @@ Após a instalação:
 - **Usuário**: admin
 - **Senha**: admin123
 
-## 🏗️ Arquitetura
+## Arquitetura
 
 ### Backend (Node.js + TypeScript)
 ```
@@ -194,7 +176,7 @@ documentation/
 └── static/         # Arquivos estáticos
 ```
 
-## 🚀 Deploy em Produção
+## Deploy em Produção
 
 ### Docker
 ```bash
@@ -227,38 +209,8 @@ docker run -p 8081:8081 sys-Obras
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
-## 🐛 Solução de Problemas
 
-### Erro de Conexão com Banco
-```bash
-# Verifique se o PostgreSQL está rodando
-sudo systemctl status postgresql
-
-# Teste a conexão
-psql -h localhost -U postgres -d sysobras
-```
-
-### Porta em Uso
-```bash
-# Verifique processos nas portas
-netstat -ano | findstr :3000
-netstat -ano | findstr :8081
-
-# Mate o processo se necessário
-taskkill /PID <PID> /F
-```
-
-### Problemas com Dependências
-```bash
-# Limpe o cache
-npm cache clean --force
-
-# Reinstale dependências
-rm -rf node_modules package-lock.json
-npm install
-```
-
-## 📊 Funcionalidades Detalhadas
+## Funcionalidades Detalhadas
 
 ### Dashboard
 - Estatísticas em tempo real
@@ -284,7 +236,7 @@ npm install
 - Controle de itens
 - Relatórios fiscais
 
-## 📈 Próximas Funcionalidades
+## Próximas Funcionalidades
 
 - [ ] Sistema de relatórios avançados
 - [ ] Integração com APIs de pagamento
@@ -306,6 +258,6 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 **⭐ Se este projeto te ajudou, considere dar uma estrela!**
 
-[🚀 Ver Documentação Completa](./documentation) | [🐛 Reportar Bug](https://github.com/brunocardsx/sys-Obras/issues) | [💡 Sugerir Feature](https://github.com/brunocardsx/sys-Obras/issues)
+[ Ver Documentação Completa](./documentation) | [ Reportar Bug](https://github.com/brunocardsx/sys-Obras/issues) | [ Sugerir Feature](https://github.com/brunocardsx/sys-Obras/issues)
 
 </div>
