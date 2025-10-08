@@ -71,7 +71,7 @@ DB_PORT=5432
 DB_NAME=sysobras
 DB_USER=postgres
 DB_PASS=admin
-JWT_SECRET=sua-chave-secreta-super-segura
+JWT_SECRET=sua-chave
 ADMIN_USER=admin
 ADMIN_PASS=admin123
 PORT=8081
@@ -138,7 +138,7 @@ Após a instalação:
 - **Backend API**: http://localhost:8081
 - **Documentação**: http://localhost:3000 (quando executar `npm run docs:dev`)
 
-### 🔑 Credenciais Padrão
+### Credenciais Padrão
 - **Usuário**: admin
 - **Senha**: admin123
 
@@ -167,28 +167,7 @@ frontend/src/
 └── hooks/          # Hooks customizados
 ```
 
-### Documentação (Docusaurus)
-```
-documentation/
-├── docs/           # Documentação em Markdown
-├── blog/           # Posts do blog
-├── src/            # Componentes React customizados
-└── static/         # Arquivos estáticos
-```
-
-## Deploy em Produção
-
-### Docker
-```bash
-# Build da imagem (a partir da pasta backend)
-cd backend
-docker build -t sys-Obras .
-
-# Executar container
-docker run -p 8081:8081 sys-Obras
-```
-
-## 🛠️ Desenvolvimento
+## Desenvolvimento
 
 ### Pré-requisitos
 - Node.js 18+
